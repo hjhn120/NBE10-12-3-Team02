@@ -217,6 +217,19 @@ function HomeContent() {
     currentPage * itemsPerPage,
   );
 
+  // 하단 탭바의 "검색"에서 넘어온 경우(?focus=search), 검색창으로 스크롤 후 포커스한다.
+  useEffect(() => {
+    if (searchParams.get("focus") !== "search") return;
+    const el = document.getElementById("concert-search");
+    el?.scrollIntoView({ behavior: "smooth", block: "center" });
+    el?.focus();
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete("focus");
+    router.replace(params.toString() ? `${pathname}?${params}` : pathname, {
+      scroll: false,
+    });
+  }, [searchParams, pathname, router]);
+
   const handleKeywordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setKeyword(e.target.value);
     goToPage(1);
@@ -427,6 +440,7 @@ function HomeContent() {
               className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
             />
             <input
+              id="concert-search"
               type="text"
               placeholder="콘서트 이름으로 검색"
               value={keyword}

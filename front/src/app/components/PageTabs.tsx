@@ -44,7 +44,7 @@ export default function PageTabs() {
     <>
       <div
         ref={tabRef}
-        className={`fixed top-16 left-0 right-0 z-40 bg-white border-b border-gray-100 transition-transform duration-300 ${
+        className={`hidden md:block fixed top-16 left-0 right-0 z-40 bg-white border-b border-gray-100 transition-transform duration-300 ${
           visible ? "translate-y-0" : "-translate-y-full"
         }`}
       >
