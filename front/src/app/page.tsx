@@ -260,28 +260,48 @@ function HomeContent() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="max-w-5xl mx-auto px-6 pt-8">
+      <div className="max-w-5xl mx-auto px-4 md:px-6 pt-8">
         <div className="group relative bg-gray-900 rounded-2xl overflow-hidden">
           <button
             onClick={() => swiperRef.current?.slidePrev()}
-            className="absolute left-0 top-0 bottom-0 z-20 w-16 flex items-center justify-center bg-gradient-to-r from-black/50 to-transparent text-white opacity-0 group-hover:opacity-100 transition-opacity"
+            className="hidden md:flex absolute left-0 top-0 bottom-0 z-20 w-16 items-center justify-center bg-gradient-to-r from-black/50 to-transparent text-white opacity-0 group-hover:opacity-100 transition-opacity"
           >
             <ChevronLeft size={28} />
           </button>
 
           <button
             onClick={() => swiperRef.current?.slideNext()}
-            className="absolute right-0 top-0 bottom-0 z-20 w-16 flex items-center justify-center bg-gradient-to-l from-black/50 to-transparent text-white opacity-0 group-hover:opacity-100 transition-opacity"
+            className="hidden md:flex absolute right-0 top-0 bottom-0 z-20 w-16 items-center justify-center bg-gradient-to-l from-black/50 to-transparent text-white opacity-0 group-hover:opacity-100 transition-opacity"
           >
             <ChevronRight size={28} />
           </button>
 
+          {/* 모바일 전용: peek 캐러셀 뒤에 고정되는 통합 블러 배경 (활성 슬라이드 기준, 슬라이드와 같이 움직이지 않음) */}
+          {!topConcertsLoading &&
+            topConcerts.length > 0 &&
+            topConcerts[activeTopIndex]?.posterUrl && (
+              <PosterImage
+                fill
+                unoptimized
+                priority
+                src={topConcerts[activeTopIndex].posterUrl}
+                alt=""
+                aria-hidden="true"
+                className="md:hidden object-cover scale-110 blur-3xl opacity-60"
+              />
+            )}
+          {!topConcertsLoading && topConcerts.length > 0 && (
+            <div className="md:hidden absolute inset-0 bg-gray-900/50" />
+          )}
+
           {topConcertsLoading ? (
-            <div className="h-64 md:h-[28rem] flex items-center justify-center text-gray-400">
+            <div className="pt-4 md:pt-0 h-64 md:h-[28rem] flex items-center justify-center text-gray-400">
               불러오는 중...
             </div>
           ) : (
-            <Swiper
+            <div className="pt-4 md:pt-0">
+              <Swiper
+              className="banner-peek-swiper"
               modules={[Autoplay]}
               onSwiper={(swiper) => {
                 swiperRef.current = swiper;
@@ -291,6 +311,15 @@ function HomeContent() {
                 setAutoplayProgress(1 - percentage)
               }
               slidesPerView={1}
+              centeredSlides={true}
+              spaceBetween={12}
+              breakpoints={{
+                768: {
+                  slidesPerView: 1,
+                  centeredSlides: false,
+                  spaceBetween: 0,
+                },
+              }}
               loop={topConcerts.length > 1}
               autoplay={{
                 delay: 3000,
@@ -302,7 +331,7 @@ function HomeContent() {
                 <SwiperSlide key={concert.concertId}>
                   <Link
                     href={`/concerts/${concert.concertId}`}
-                    className="relative flex flex-col md:flex-row md:h-[28rem] overflow-hidden bg-gray-900"
+                    className="relative flex flex-col md:flex-row md:h-[28rem] overflow-hidden bg-transparent md:bg-gray-900"
                   >
                     {/* 배너 전체에 깔리는 흐린 포스터 배경 (왼쪽/오른쪽이 하나로 이어져 보이도록) */}
                     {concert.posterUrl && (
@@ -313,15 +342,15 @@ function HomeContent() {
                         src={concert.posterUrl}
                         alt=""
                         aria-hidden="true"
-                        className="object-cover scale-110 blur-3xl opacity-60"
+                        className="hidden md:block object-cover scale-110 blur-3xl opacity-60"
                       />
                     )}
                     {/* 글자 가독성을 위해 어둡게 한 겹 덮는다 */}
-                    <div className="absolute inset-0 bg-gray-900/50" />
+                    <div className="hidden md:block absolute inset-0 bg-gray-900/50" />
 
                     {/* 왼쪽: 포스터 (크게, 잘리지 않도록) */}
                     <div
-                      className="relative w-full h-56 md:h-auto md:w-[var(--poster-w)] md:min-w-[220px] flex-shrink-0 overflow-hidden"
+                      className="relative aspect-[4/5] md:h-auto md:w-[var(--poster-w)] md:min-w-[220px] flex-shrink-0 overflow-hidden"
                       style={
                         {
                           "--poster-w": `${448 * posterAspectRatio}px`,
@@ -343,13 +372,13 @@ function HomeContent() {
                     </div>
 
                     {/* 오른쪽: 제목/장소/소개/버튼 */}
-                    <div className="relative flex-1 min-w-0 text-white p-5 md:p-10 flex flex-col justify-center">
+                    <div className="relative flex-1 min-w-0 text-white pt-3 px-5 pb-5 md:p-10 flex flex-col items-center text-center md:items-start md:text-left justify-center">
                       {concert.status === "CLOSED" && (
-                        <span className="self-start mb-3 bg-red-500 text-white text-xs px-2 py-1 rounded-full font-semibold">
+                        <span className="self-center md:self-start mb-3 bg-red-500 text-white text-xs px-2 py-1 rounded-full font-semibold">
                           마감
                         </span>
                       )}
-                      <h3 className="text-3xl md:text-4xl font-bold drop-shadow-md">
+                      <h3 className="text-2xl md:text-4xl font-bold drop-shadow-md w-full truncate md:w-auto md:whitespace-normal md:overflow-visible">
                         {concert.concertName}
                       </h3>
 
@@ -362,34 +391,35 @@ function HomeContent() {
                           </span>
                         )}
                       </p>
-                      <p className="text-sm text-gray-100 font-medium mt-1 drop-shadow-md">
+                      <p className="text-sm text-gray-100 font-medium mt-1 mb-4 md:mb-0 drop-shadow-md">
                         {concert.startDate?.slice(0, 10)} ~{" "}
                         {concert.endDate?.slice(0, 10)}
                       </p>
 
                       {concert.description && (
-                        <p className="text-sm text-white mt-5 leading-6 line-clamp-3 max-w-xl drop-shadow-md">
+                        <p className="hidden md:block text-sm text-white mt-5 leading-6 line-clamp-3 max-w-xl drop-shadow-md">
                           {concert.description}
                         </p>
                       )}
 
-                      <span className="inline-flex items-center gap-1 mt-6 text-sm font-semibold bg-white text-gray-900 w-fit px-4 py-2 rounded-full hover:bg-gray-100 transition">
+                      <span className="hidden md:inline-flex items-center gap-1 mt-6 text-sm font-semibold bg-white text-gray-900 w-fit px-4 py-2 rounded-full hover:bg-gray-100 transition">
                         자세히 보기 →
                       </span>
                     </div>
                   </Link>
                 </SwiperSlide>
               ))}
-            </Swiper>
+              </Swiper>
+            </div>
           )}
 
           {/* 캐러셀 틀에 고정된 진행 표시 (슬라이드와 같이 움직이지 않도록 Swiper 바깥에 둔다) */}
           {!topConcertsLoading && topConcerts.length > 0 && (
-            <div className="absolute bottom-4 left-8 right-8 flex gap-2 z-20 pointer-events-none">
+            <div className="flex absolute bottom-4 left-8 right-8 gap-2 z-20 pointer-events-none">
               {topConcerts.map((_, segmentIndex) => (
                 <div
                   key={segmentIndex}
-                  className="flex-1 h-1 rounded-full bg-white/25 overflow-hidden"
+                  className="flex-1 h-0.5 rounded-full bg-white/25 overflow-hidden"
                 >
                   <div
                     className="h-full bg-white rounded-full"
