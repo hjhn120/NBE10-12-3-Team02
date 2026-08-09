@@ -32,8 +32,27 @@ export default function RootLayout({
   return (
     <html
       lang="ko"
+      suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
+      <head>
+        <script
+          // hydration 전에 동기 실행되어야 다크모드 전환 시 깜빡임(FOUC)이 없다.
+          dangerouslySetInnerHTML={{
+            __html: `(function () {
+              try {
+                var stored = localStorage.getItem('theme');
+                var isDark = stored
+                  ? stored === 'dark'
+                  : window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (isDark) {
+                  document.documentElement.classList.add('dark');
+                }
+              } catch (e) {}
+            })();`,
+          }}
+        />
+      </head>
       <body className="min-h-full flex flex-col">
         <Navbar />
         <PageTabs />
