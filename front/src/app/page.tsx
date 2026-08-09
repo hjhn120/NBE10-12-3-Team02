@@ -46,6 +46,15 @@ interface ConcertDetailResponse {
 
 type ConcertStatusFilter = "all" | "ongoing" | "closed";
 
+// 공연 시작일이 3일 이내로 임박한 경우(이미 마감된 공연은 제외)
+function isClosingSoon(concert: ConcertListItem): boolean {
+  if (concert.status === "CLOSED") return false;
+  const start = new Date(concert.startDate).getTime();
+  if (Number.isNaN(start)) return false;
+  const diffDays = (start - Date.now()) / (1000 * 60 * 60 * 24);
+  return diffDays >= 0 && diffDays <= 3;
+}
+
 function HomeContent() {
   const router = useRouter();
   const pathname = usePathname();
@@ -476,7 +485,7 @@ function HomeContent() {
                   key={concert.concertId}
                   className="bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-lg hover:-translate-y-1 transition-all duration-200 cursor-pointer flex flex-col"
                 >
-                  <div className="h-48 bg-gradient-to-br from-blue-200 to-indigo-300 flex items-center justify-center text-white font-bold relative overflow-hidden">
+                  <div className="aspect-[2/3] md:h-48 bg-gradient-to-br from-blue-200 to-indigo-300 flex items-center justify-center text-white font-bold relative overflow-hidden">
                     {concert.posterUrl ? (
                       <PosterImage
                         fill
@@ -493,6 +502,11 @@ function HomeContent() {
                     {concert.status === "CLOSED" && (
                       <span className="absolute top-2 left-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full font-semibold">
                         마감
+                      </span>
+                    )}
+                    {isClosingSoon(concert) && (
+                      <span className="absolute top-2 left-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full font-semibold">
+                        마감임박
                       </span>
                     )}
                   </div>
