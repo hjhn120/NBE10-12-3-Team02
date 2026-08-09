@@ -22,11 +22,11 @@ export function WithdrawModal({ show, onClose, onWithdraw }: WithdrawModalProps)
 
   return (
     <div className="fixed inset-0 z-[100] bg-black/50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl p-8 max-w-sm w-full">
-        <h2 className="text-xl font-bold text-center text-gray-800 mb-3">
+      <div className="bg-white dark:bg-gray-900 rounded-2xl p-8 max-w-sm w-full">
+        <h2 className="text-xl font-bold text-center text-gray-800 dark:text-gray-100 mb-3">
           정말 탈퇴하시겠어요?
         </h2>
-        <p className="text-center text-gray-500 text-sm mb-6">
+        <p className="text-center text-gray-500 dark:text-gray-400 text-sm mb-6">
           탈퇴 시 모든 예매 내역이 사라지며,
           <br />
           되돌릴 수 없습니다.
@@ -34,7 +34,7 @@ export function WithdrawModal({ show, onClose, onWithdraw }: WithdrawModalProps)
         <div className="flex gap-3">
           <button
             onClick={onClose}
-            className="flex-1 p-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg font-bold transition"
+            className="flex-1 p-3 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-lg font-bold transition"
           >
             취소
           </button>

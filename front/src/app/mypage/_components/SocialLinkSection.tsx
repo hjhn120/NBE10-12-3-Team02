@@ -99,27 +99,31 @@ export function SocialLinkSection({ refreshKey }: SocialLinkSectionProps) {
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm p-8">
-      <h2 className="text-lg font-bold text-gray-700 mb-4">소셜 계정 연동</h2>
+    <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-sm dark:shadow-none p-8">
+      <h2 className="text-lg font-bold text-gray-700 dark:text-gray-100 mb-4">
+        소셜 계정 연동
+      </h2>
       {socialLinkLoading ? (
-        <p className="text-sm text-gray-400">불러오는 중...</p>
+        <p className="text-sm text-gray-400 dark:text-gray-500">
+          불러오는 중...
+        </p>
       ) : socialLinkStatus?.linked ? (
-        <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl border border-gray-100">
+        <div className="flex items-center gap-3 p-4 bg-gray-50 dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700">
           <SocialBadge provider={socialLinkStatus.provider!} size={24} />
           <div>
-            <p className="text-sm font-semibold text-gray-700">
+            <p className="text-sm font-semibold text-gray-700 dark:text-gray-200">
               {PROVIDER_LABELS[socialLinkStatus.provider!] ??
                 socialLinkStatus.provider}{" "}
               계정 연동됨
             </p>
-            <p className="text-xs text-gray-400 mt-0.5">
+            <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">
               해당 소셜 계정으로 로그인할 수 있습니다.
             </p>
           </div>
         </div>
       ) : (
         <div>
-          <p className="text-sm text-gray-500 mb-4">
+          <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
             소셜 계정을 연동하면 해당 소셜 계정으로도 로그인할 수 있습니다.
           </p>
           <div className="flex flex-col gap-2">

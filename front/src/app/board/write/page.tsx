@@ -90,9 +90,11 @@ export default function BoardWritePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-10">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 py-10">
       <div className="max-w-2xl mx-auto px-4">
-        <h1 className="text-2xl font-bold text-gray-800 mb-6">후기 작성</h1>
+        <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6">
+          후기 작성
+        </h1>
 
         <div className="flex gap-2 mb-8">
           {REVIEW_TYPE_OPTIONS.map((t) => (
@@ -103,7 +105,7 @@ export default function BoardWritePage() {
               className={`px-4 py-2 rounded-lg text-sm font-semibold border transition ${
                 reviewType === t.key
                   ? "bg-blue-600 text-white border-blue-600"
-                  : "bg-white text-gray-600 border-gray-200 hover:border-blue-400"
+                  : "bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:border-blue-400"
               }`}
             >
               {t.label}
@@ -112,17 +114,19 @@ export default function BoardWritePage() {
         </div>
 
         {loading ? (
-          <p className="text-gray-400 text-sm">불러오는 중...</p>
+          <p className="text-gray-400 dark:text-gray-500 text-sm">
+            불러오는 중...
+          </p>
         ) : concerts.length === 0 ? (
-          <div className="bg-white rounded-2xl shadow-sm p-10 text-center">
-            <p className="text-gray-500 text-sm leading-relaxed">
+          <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-sm dark:shadow-none p-10 text-center">
+            <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
               {reviewType === "REVIEW"
                 ? "최근 6개월 이내에 관람한 콘서트가 없습니다."
                 : "예매한 콘서트가 없습니다."}
             </p>
             <button
               onClick={() => router.push("/board")}
-              className="mt-6 px-5 py-2 text-sm text-blue-600 border border-blue-300 rounded-lg hover:bg-blue-50 transition"
+              className="mt-6 px-5 py-2 text-sm text-blue-600 dark:text-blue-400 border border-blue-300 dark:border-blue-800 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-950/40 transition"
             >
               게시판으로 돌아가기
             </button>
@@ -130,16 +134,16 @@ export default function BoardWritePage() {
         ) : (
           <form
             onSubmit={handleSubmit}
-            className="bg-white rounded-2xl shadow-sm p-8 space-y-6"
+            className="bg-white dark:bg-gray-900 rounded-2xl shadow-sm dark:shadow-none p-8 space-y-6"
           >
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2">
                 콘서트 선택
               </label>
               <select
                 value={selectedId}
                 onChange={(e) => setSelectedId(Number(e.target.value) || "")}
-                className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300 bg-white"
+                className="w-full border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
               >
                 <option value="">콘서트를 선택하세요</option>
                 {concerts.map((c) => (
@@ -153,7 +157,7 @@ export default function BoardWritePage() {
             {selectedId !== "" && (
               <>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2">
                     제목
                   </label>
                   <input
@@ -164,12 +168,12 @@ export default function BoardWritePage() {
                     onChange={(e) =>
                       setForm((f) => ({ ...f, title: e.target.value }))
                     }
-                    className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300"
+                    className="w-full border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2">
                     내용
                   </label>
                   <textarea
@@ -184,13 +188,13 @@ export default function BoardWritePage() {
                     onChange={(e) =>
                       setForm((f) => ({ ...f, content: e.target.value }))
                     }
-                    className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300 resize-none"
+                    className="w-full border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300 resize-none"
                   />
                 </div>
 
                 {reviewType === "REVIEW" && (
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2">
                       별점
                     </label>
                     <div className="flex gap-1">
@@ -231,7 +235,7 @@ export default function BoardWritePage() {
               <button
                 type="button"
                 onClick={() => router.push("/board")}
-                className="px-6 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-600 text-sm font-semibold rounded-lg transition"
+                className="px-6 py-2.5 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300 text-sm font-semibold rounded-lg transition"
               >
                 취소
               </button>

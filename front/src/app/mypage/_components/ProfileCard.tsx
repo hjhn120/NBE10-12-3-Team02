@@ -177,9 +177,9 @@ export function ProfileCard({ data, onDataUpdate }: ProfileCardProps) {
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm p-8 mb-6">
+    <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-sm dark:shadow-none p-8 mb-6">
       <div className="flex flex-col items-center mb-6">
-        <div className="relative w-20 h-20 rounded-full overflow-hidden border-2 border-gray-100 mb-2">
+        <div className="relative w-20 h-20 rounded-full overflow-hidden border-2 border-gray-100 dark:border-gray-800 mb-2">
           <Image
             src={
               profilePreviewUrl ||
@@ -214,7 +214,7 @@ export function ProfileCard({ data, onDataUpdate }: ProfileCardProps) {
             <button
               type="button"
               onClick={cancelProfileEdit}
-              className="text-xs text-gray-500 hover:text-gray-700 border border-gray-200 px-3 py-1 rounded-lg transition"
+              className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 border border-gray-200 dark:border-gray-700 px-3 py-1 rounded-lg transition"
             >
               취소
             </button>
@@ -231,7 +231,7 @@ export function ProfileCard({ data, onDataUpdate }: ProfileCardProps) {
           <button
             type="button"
             onClick={handleDeleteProfileImage}
-            className="text-xs text-gray-400 hover:text-gray-600 mt-1 transition"
+            className="text-xs text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 mt-1 transition"
           >
             기본 이미지로 변경
           </button>
@@ -239,11 +239,13 @@ export function ProfileCard({ data, onDataUpdate }: ProfileCardProps) {
       </div>
 
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-bold text-gray-700">내 정보</h2>
+        <h2 className="text-lg font-bold text-gray-700 dark:text-gray-100">
+          내 정보
+        </h2>
         {!isEditing && (
           <button
             onClick={startEditing}
-            className="text-xs text-blue-600 hover:text-blue-700 border border-blue-200 hover:border-blue-300 px-3 py-1 rounded-lg transition"
+            className="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 border border-blue-200 dark:border-blue-800/60 hover:border-blue-300 dark:hover:border-blue-700 px-3 py-1 rounded-lg transition"
           >
             정보 수정
           </button>
@@ -253,27 +255,27 @@ export function ProfileCard({ data, onDataUpdate }: ProfileCardProps) {
       {isEditing ? (
         <div className="space-y-3">
           <div>
-            <label className="block text-xs text-gray-400 mb-1">이름</label>
+            <label className="block text-xs text-gray-400 dark:text-gray-500 mb-1">이름</label>
             <input
               type="text"
               value={editName}
               onChange={(e) => setEditName(e.target.value)}
-              className="w-full p-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full p-2.5 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
           </div>
           <div>
-            <label className="block text-xs text-gray-400 mb-1">이메일</label>
+            <label className="block text-xs text-gray-400 dark:text-gray-500 mb-1">이메일</label>
             <input
               type="email"
               value={editEmail}
               onChange={(e) => setEditEmail(e.target.value)}
-              className="w-full p-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full p-2.5 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
           </div>
           {!isSocialLogin && (
             <>
               <div>
-                <label className="block text-xs text-gray-400 mb-1">
+                <label className="block text-xs text-gray-400 dark:text-gray-500 mb-1">
                   새 비밀번호 (변경 시에만 입력)
                 </label>
                 <input
@@ -281,20 +283,20 @@ export function ProfileCard({ data, onDataUpdate }: ProfileCardProps) {
                   value={editPassword}
                   onChange={(e) => setEditPassword(e.target.value)}
                   placeholder="8자 이상"
-                  className="w-full p-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  className="w-full p-2.5 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400"
                 />
                 <PasswordStrengthMeter password={editPassword} />
               </div>
               {editPassword !== "" && (
                 <div>
-                  <label className="block text-xs text-gray-400 mb-1">
+                  <label className="block text-xs text-gray-400 dark:text-gray-500 mb-1">
                     새 비밀번호 확인
                   </label>
                   <input
                     type="password"
                     value={editPasswordCheck}
                     onChange={(e) => setEditPasswordCheck(e.target.value)}
-                    className="w-full p-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    className="w-full p-2.5 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400"
                   />
                 </div>
               )}
@@ -304,7 +306,7 @@ export function ProfileCard({ data, onDataUpdate }: ProfileCardProps) {
             <button
               onClick={cancelEditing}
               disabled={isSavingProfile}
-              className="flex-1 p-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg font-semibold text-sm transition disabled:opacity-50"
+              className="flex-1 p-2.5 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-lg font-semibold text-sm transition disabled:opacity-50"
             >
               취소
             </button>
@@ -318,26 +320,26 @@ export function ProfileCard({ data, onDataUpdate }: ProfileCardProps) {
           </div>
         </div>
       ) : (
-        <div className="space-y-2 text-gray-600">
+        <div className="space-y-2 text-gray-600 dark:text-gray-300">
           <p>
-            <span className="inline-block w-20 text-gray-400">이름</span>
+            <span className="inline-block w-20 text-gray-400 dark:text-gray-500">이름</span>
             {data.name}
           </p>
           {isSocialLogin ? (
             <p className="flex items-center gap-1.5">
-              <span className="inline-block w-20 shrink-0 text-gray-400">
+              <span className="inline-block w-20 shrink-0 text-gray-400 dark:text-gray-500">
                 로그인 방식
               </span>
               <SocialBadge provider={data.loginType} />
             </p>
           ) : (
             <p>
-              <span className="inline-block w-20 text-gray-400">아이디</span>
+              <span className="inline-block w-20 text-gray-400 dark:text-gray-500">아이디</span>
               {data.id}
             </p>
           )}
           <p>
-            <span className="inline-block w-20 text-gray-400">이메일</span>
+            <span className="inline-block w-20 text-gray-400 dark:text-gray-500">이메일</span>
             {data.email}
           </p>
         </div>

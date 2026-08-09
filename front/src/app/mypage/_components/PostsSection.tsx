@@ -173,7 +173,7 @@ export function PostsSection() {
   }, []);
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm p-8">
+    <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-sm dark:shadow-none p-8">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-6">
         <div className="flex flex-wrap gap-2">
           {(
@@ -189,7 +189,7 @@ export function PostsSection() {
               className={`whitespace-nowrap px-4 py-2 rounded-lg text-sm font-semibold border transition ${
                 postsSubTab === st.key
                   ? "bg-blue-600 text-white border-blue-600"
-                  : "bg-white text-gray-600 border-gray-200 hover:border-blue-400"
+                  : "bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:border-blue-400"
               }`}
             >
               {st.label}
@@ -198,7 +198,7 @@ export function PostsSection() {
         </div>
         <Link
           href="/mypage/follows"
-          className="self-start md:self-auto whitespace-nowrap px-3 py-1.5 bg-white border border-gray-200 hover:border-blue-300 text-gray-600 hover:text-blue-600 text-sm font-semibold rounded-lg transition"
+          className="self-start md:self-auto whitespace-nowrap px-3 py-1.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-blue-300 text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 text-sm font-semibold rounded-lg transition"
         >
           팔로우 목록 보기
         </Link>
@@ -207,17 +207,17 @@ export function PostsSection() {
       {postsSubTab === "my" && (
         <>
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-bold text-gray-700">내 게시글</h2>
-            <span className="text-sm text-gray-400">
+            <h2 className="text-lg font-bold text-gray-700 dark:text-gray-100">내 게시글</h2>
+            <span className="text-sm text-gray-400 dark:text-gray-500">
               {myPostsTotalElements}개
             </span>
           </div>
           {myPostsLoading ? (
-            <p className="text-sm text-gray-400 text-center py-10">
+            <p className="text-sm text-gray-400 dark:text-gray-500 text-center py-10">
               불러오는 중...
             </p>
           ) : myPosts.length === 0 ? (
-            <p className="text-sm text-gray-400 text-center py-10">
+            <p className="text-sm text-gray-400 dark:text-gray-500 text-center py-10">
               작성한 게시글이 없습니다.
             </p>
           ) : (
@@ -228,10 +228,10 @@ export function PostsSection() {
                   onClick={() => router.push(`/board/${post.postId}`)}
                   role="button"
                   tabIndex={0}
-                  className="p-4 border border-gray-100 rounded-xl hover:shadow-md hover:border-blue-200 transition cursor-pointer"
+                  className="p-4 border border-gray-100 dark:border-gray-800 rounded-xl hover:shadow-md hover:border-blue-200 dark:hover:border-blue-800 transition cursor-pointer"
                 >
                   <div className="flex items-center gap-2 mb-1">
-                    <h3 className="font-semibold text-gray-800 truncate">
+                    <h3 className="font-semibold text-gray-800 dark:text-gray-100 truncate">
                       {post.title}
                     </h3>
                     <span
@@ -248,7 +248,7 @@ export function PostsSection() {
                   <p className="text-xs text-blue-600 font-semibold">
                     {post.concertName}
                   </p>
-                  <p className="text-xs text-gray-400 mt-1">
+                  <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
                     {formatDateTime(post.createdAt)} · 좋아요 {post.likeCount}
                   </p>
                 </div>
@@ -260,7 +260,7 @@ export function PostsSection() {
               <button
                 onClick={() => fetchMyPosts(myPostsPage - 1)}
                 disabled={myPostsPage === 0}
-                className="px-3 py-2 rounded-lg border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-default"
+                className="px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-40 disabled:cursor-default"
               >
                 이전
               </button>
@@ -272,7 +272,7 @@ export function PostsSection() {
                     className={`w-10 h-10 rounded-lg border text-sm font-semibold ${
                       myPostsPage === page
                         ? "bg-blue-600 border-blue-600 text-white"
-                        : "bg-white border-gray-200 text-gray-600 hover:bg-gray-50"
+                        : "bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
                     }`}
                   >
                     {page + 1}
@@ -282,7 +282,7 @@ export function PostsSection() {
               <button
                 onClick={() => fetchMyPosts(myPostsPage + 1)}
                 disabled={myPostsPage >= myPostsTotalPages - 1}
-                className="px-3 py-2 rounded-lg border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-default"
+                className="px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-40 disabled:cursor-default"
               >
                 다음
               </button>
@@ -294,17 +294,17 @@ export function PostsSection() {
       {postsSubTab === "bookmarks" && (
         <>
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-bold text-gray-700">북마크한 게시글</h2>
-            <span className="text-sm text-gray-400">
+            <h2 className="text-lg font-bold text-gray-700 dark:text-gray-100">북마크한 게시글</h2>
+            <span className="text-sm text-gray-400 dark:text-gray-500">
               {bookmarksTotalElements}개
             </span>
           </div>
           {bookmarksLoading ? (
-            <p className="text-sm text-gray-400 text-center py-10">
+            <p className="text-sm text-gray-400 dark:text-gray-500 text-center py-10">
               불러오는 중...
             </p>
           ) : bookmarks.length === 0 ? (
-            <p className="text-sm text-gray-400 text-center py-10">
+            <p className="text-sm text-gray-400 dark:text-gray-500 text-center py-10">
               북마크한 게시글이 없습니다.
             </p>
           ) : (
@@ -315,7 +315,7 @@ export function PostsSection() {
                   onClick={() => router.push(`/board/${b.postId}`)}
                   role="button"
                   tabIndex={0}
-                  className="flex gap-3 p-4 border border-gray-100 rounded-xl hover:shadow-md hover:border-blue-200 transition cursor-pointer"
+                  className="flex gap-3 p-4 border border-gray-100 dark:border-gray-800 rounded-xl hover:shadow-md hover:border-blue-200 dark:hover:border-blue-800 transition cursor-pointer"
                 >
                   <div className="relative shrink-0 w-12 h-16 rounded-lg overflow-hidden bg-gradient-to-br from-blue-100 to-indigo-200 flex items-center justify-center">
                     {b.posterUrl ? (
@@ -328,17 +328,17 @@ export function PostsSection() {
                         className="object-cover"
                       />
                     ) : (
-                      <span className="text-[10px] text-gray-400">포스터</span>
+                      <span className="text-[10px] text-gray-400 dark:text-gray-500">포스터</span>
                     )}
                   </div>
                   <div className="min-w-0 flex-1">
-                    <h3 className="font-semibold text-gray-800 truncate">
+                    <h3 className="font-semibold text-gray-800 dark:text-gray-100 truncate">
                       {b.title}
                     </h3>
                     <p className="text-xs text-blue-600 font-semibold mt-0.5">
                       {b.concertName}
                     </p>
-                    <p className="text-xs text-gray-400 mt-1">
+                    <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
                       {b.userName} · {formatDateTime(b.bookmarkedAt)} 북마크
                     </p>
                   </div>
@@ -351,7 +351,7 @@ export function PostsSection() {
               <button
                 onClick={() => fetchBookmarks(bookmarksPage - 1)}
                 disabled={bookmarksPage === 0}
-                className="px-3 py-2 rounded-lg border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-default"
+                className="px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-40 disabled:cursor-default"
               >
                 이전
               </button>
@@ -363,7 +363,7 @@ export function PostsSection() {
                     className={`w-10 h-10 rounded-lg border text-sm font-semibold ${
                       bookmarksPage === page
                         ? "bg-blue-600 border-blue-600 text-white"
-                        : "bg-white border-gray-200 text-gray-600 hover:bg-gray-50"
+                        : "bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
                     }`}
                   >
                     {page + 1}
@@ -373,7 +373,7 @@ export function PostsSection() {
               <button
                 onClick={() => fetchBookmarks(bookmarksPage + 1)}
                 disabled={bookmarksPage >= bookmarksTotalPages - 1}
-                className="px-3 py-2 rounded-lg border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-default"
+                className="px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-40 disabled:cursor-default"
               >
                 다음
               </button>
@@ -385,17 +385,17 @@ export function PostsSection() {
       {postsSubTab === "likes" && (
         <>
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-bold text-gray-700">좋아요한 게시글</h2>
-            <span className="text-sm text-gray-400">
+            <h2 className="text-lg font-bold text-gray-700 dark:text-gray-100">좋아요한 게시글</h2>
+            <span className="text-sm text-gray-400 dark:text-gray-500">
               {likesTotalElements}개
             </span>
           </div>
           {likesLoading ? (
-            <p className="text-sm text-gray-400 text-center py-10">
+            <p className="text-sm text-gray-400 dark:text-gray-500 text-center py-10">
               불러오는 중...
             </p>
           ) : likes.length === 0 ? (
-            <p className="text-sm text-gray-400 text-center py-10">
+            <p className="text-sm text-gray-400 dark:text-gray-500 text-center py-10">
               좋아요한 게시글이 없습니다.
             </p>
           ) : (
@@ -406,7 +406,7 @@ export function PostsSection() {
                   onClick={() => router.push(`/board/${l.postId}`)}
                   role="button"
                   tabIndex={0}
-                  className="flex gap-3 p-4 border border-gray-100 rounded-xl hover:shadow-md hover:border-blue-200 transition cursor-pointer"
+                  className="flex gap-3 p-4 border border-gray-100 dark:border-gray-800 rounded-xl hover:shadow-md hover:border-blue-200 dark:hover:border-blue-800 transition cursor-pointer"
                 >
                   <div className="relative shrink-0 w-12 h-16 rounded-lg overflow-hidden bg-gradient-to-br from-blue-100 to-indigo-200 flex items-center justify-center">
                     {l.posterUrl ? (
@@ -419,17 +419,17 @@ export function PostsSection() {
                         className="object-cover"
                       />
                     ) : (
-                      <span className="text-[10px] text-gray-400">포스터</span>
+                      <span className="text-[10px] text-gray-400 dark:text-gray-500">포스터</span>
                     )}
                   </div>
                   <div className="min-w-0 flex-1">
-                    <h3 className="font-semibold text-gray-800 truncate">
+                    <h3 className="font-semibold text-gray-800 dark:text-gray-100 truncate">
                       {l.title}
                     </h3>
                     <p className="text-xs text-blue-600 font-semibold mt-0.5">
                       {l.concertName}
                     </p>
-                    <p className="text-xs text-gray-400 mt-1">
+                    <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
                       {l.userName} · {formatDateTime(l.likedAt)} 좋아요
                     </p>
                   </div>
@@ -442,7 +442,7 @@ export function PostsSection() {
               <button
                 onClick={() => fetchLikes(likesPage - 1)}
                 disabled={likesPage === 0}
-                className="px-3 py-2 rounded-lg border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-default"
+                className="px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-40 disabled:cursor-default"
               >
                 이전
               </button>
@@ -454,7 +454,7 @@ export function PostsSection() {
                     className={`w-10 h-10 rounded-lg border text-sm font-semibold ${
                       likesPage === page
                         ? "bg-blue-600 border-blue-600 text-white"
-                        : "bg-white border-gray-200 text-gray-600 hover:bg-gray-50"
+                        : "bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
                     }`}
                   >
                     {page + 1}
@@ -464,7 +464,7 @@ export function PostsSection() {
               <button
                 onClick={() => fetchLikes(likesPage + 1)}
                 disabled={likesPage >= likesTotalPages - 1}
-                className="px-3 py-2 rounded-lg border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-default"
+                className="px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-40 disabled:cursor-default"
               >
                 다음
               </button>

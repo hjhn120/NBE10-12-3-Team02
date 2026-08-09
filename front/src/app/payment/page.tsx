@@ -208,33 +208,37 @@ function PaymentContent() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-10">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 p-4 md:p-10">
       <div className="max-w-2xl mx-auto">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold text-gray-800">예매 정보 입력</h1>
+          <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
+            예매 정보 입력
+          </h1>
           <div className="text-red-500 font-bold">
             예매 가능 시간 {formatTime(timeLeft)}
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-sm p-8 mb-6">
-          <h2 className="font-bold text-gray-700 mb-4">
+        <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-sm dark:shadow-none p-8 mb-6">
+          <h2 className="font-bold text-gray-700 dark:text-gray-200 mb-4">
             예매 정보 ({seats.length}매)
           </h2>
-          <div className="space-y-3 text-gray-600">
+          <div className="space-y-3 text-gray-600 dark:text-gray-300">
             {seats.map((s) => (
               <div
                 key={s.seatNumber}
-                className="flex justify-between text-sm border-b border-gray-100 pb-2"
+                className="flex justify-between text-sm border-b border-gray-100 dark:border-gray-800 pb-2"
               >
                 <span>좌석 {s.seatNumber}</span>
-                <span className="font-semibold text-gray-700">
+                <span className="font-semibold text-gray-700 dark:text-gray-200">
                   {s.price.toLocaleString()}원
                 </span>
               </div>
             ))}
             <p className="pt-2">
-              <span className="inline-block w-24 text-gray-400">결제 금액</span>
+              <span className="inline-block w-24 text-gray-400 dark:text-gray-500">
+                결제 금액
+              </span>
               <span className="text-blue-600 font-bold">
                 {totalPrice.toLocaleString()}원
               </span>
@@ -242,7 +246,7 @@ function PaymentContent() {
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-sm p-8 mb-6">
+        <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-sm dark:shadow-none p-8 mb-6">
           <label className="flex items-center gap-3 cursor-pointer">
             <input
               type="checkbox"
@@ -250,7 +254,7 @@ function PaymentContent() {
               onChange={(e) => setAgreed(e.target.checked)}
               className="w-5 h-5"
             />
-            <span className="text-gray-700">
+            <span className="text-gray-700 dark:text-gray-200">
               예매 및 취소/환불 약관에 동의합니다.
             </span>
           </label>
@@ -267,11 +271,13 @@ function PaymentContent() {
 
       {isProcessing && (
         <div className="fixed inset-0 z-[100] bg-black/30 backdrop-blur-[2px] flex items-center justify-center">
-          <div className="bg-white rounded-2xl p-8 shadow-2xl flex flex-col items-center gap-4 max-w-xs w-full border border-gray-100">
+          <div className="bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-2xl flex flex-col items-center gap-4 max-w-xs w-full border border-gray-100 dark:border-gray-800">
             <Loader2 className="h-10 w-10 text-blue-600 animate-spin" />
             <div className="text-center">
-              <h3 className="font-bold text-gray-800 text-lg">결제 처리 중</h3>
-              <p className="text-xs text-gray-400 mt-1">
+              <h3 className="font-bold text-gray-800 dark:text-gray-100 text-lg">
+                결제 처리 중
+              </h3>
+              <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
                 안전하게 예매를 완료하고 있습니다.
               </p>
             </div>
@@ -281,18 +287,18 @@ function PaymentContent() {
 
       {showModal && ticketResults.length > 0 && (
         <div className="fixed inset-0 z-[100] bg-black/50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl p-8 max-w-md w-full max-h-[85vh] overflow-y-auto">
-            <h2 className="text-xl font-bold text-center text-gray-800 mb-6">
+          <div className="bg-white dark:bg-gray-900 rounded-2xl p-8 max-w-md w-full max-h-[85vh] overflow-y-auto">
+            <h2 className="text-xl font-bold text-center text-gray-800 dark:text-gray-100 mb-6">
               🎉 결제가 완료되었습니다! ({ticketResults.length}매)
             </h2>
             <div className="space-y-4 mb-6">
               {ticketResults.map((ticket) => (
                 <div
                   key={ticket.ticketNumber}
-                  className="space-y-2 text-gray-600 border-b border-gray-100 pb-4 last:border-none"
+                  className="space-y-2 text-gray-600 dark:text-gray-300 border-b border-gray-100 dark:border-gray-800 pb-4 last:border-none"
                 >
                   <div className="flex items-start gap-2">
-                    <span className="w-20 flex-shrink-0 text-gray-400">
+                    <span className="w-20 flex-shrink-0 text-gray-400 dark:text-gray-500">
                       티켓 번호
                     </span>
                     <span className="break-all text-sm">
@@ -300,7 +306,7 @@ function PaymentContent() {
                     </span>
                   </div>
                   <div className="flex items-start gap-2">
-                    <span className="w-20 flex-shrink-0 text-gray-400">
+                    <span className="w-20 flex-shrink-0 text-gray-400 dark:text-gray-500">
                       콘서트
                     </span>
                     <span className="break-words text-sm">
@@ -308,13 +314,13 @@ function PaymentContent() {
                     </span>
                   </div>
                   <div className="flex items-start gap-2">
-                    <span className="w-20 flex-shrink-0 text-gray-400">
+                    <span className="w-20 flex-shrink-0 text-gray-400 dark:text-gray-500">
                       좌석
                     </span>
                     <span className="text-sm">{ticket.seatNumber}</span>
                   </div>
                   <div className="flex items-start gap-2">
-                    <span className="w-20 flex-shrink-0 text-gray-400">
+                    <span className="w-20 flex-shrink-0 text-gray-400 dark:text-gray-500">
                       공연 일시
                     </span>
                     <span className="text-sm">
@@ -327,7 +333,7 @@ function PaymentContent() {
             <div className="flex gap-3 mt-2">
               <button
                 onClick={() => router.replace(`/concerts/${concertId}`)}
-                className="flex-1 p-3 border border-gray-300 hover:border-blue-400 text-gray-700 hover:text-blue-600 rounded-lg font-bold transition"
+                className="flex-1 p-3 border border-gray-300 dark:border-gray-700 hover:border-blue-400 text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg font-bold transition"
               >
                 확인
               </button>
@@ -349,7 +355,9 @@ export default function PaymentPage() {
   return (
     <Suspense
       fallback={
-        <p className="text-center text-gray-400 py-20">불러오는 중...</p>
+        <p className="text-center text-gray-400 dark:text-gray-500 py-20">
+          불러오는 중...
+        </p>
       }
     >
       <PaymentContent />

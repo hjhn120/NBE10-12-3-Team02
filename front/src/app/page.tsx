@@ -259,7 +259,7 @@ function HomeContent() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
       <div className="max-w-5xl mx-auto px-4 md:px-6 pt-8">
         <div className="group relative bg-gray-900 rounded-2xl overflow-hidden">
           <button
@@ -444,8 +444,10 @@ function HomeContent() {
           ref={listSectionRef}
           className="flex items-center justify-between mb-6 scroll-mt-6"
         >
-          <h2 className="text-2xl font-bold text-gray-800">전체 공연</h2>
-          <span className="text-sm text-gray-400">
+          <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
+            전체 공연
+          </h2>
+          <span className="text-sm text-gray-400 dark:text-gray-500">
             {filteredConcerts.length}개의 공연
           </span>
         </div>
@@ -464,7 +466,7 @@ function HomeContent() {
               className={`px-3 py-1.5 rounded-lg text-sm font-semibold border transition ${
                 statusFilter === f.key
                   ? "bg-blue-600 text-white border-blue-600"
-                  : "bg-white text-gray-600 border-gray-200 hover:border-blue-400"
+                  : "bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:border-blue-400"
               }`}
             >
               {f.label}
@@ -476,7 +478,7 @@ function HomeContent() {
           <div className="relative flex-1">
             <Search
               size={18}
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500"
             />
             <input
               id="concert-search"
@@ -484,14 +486,14 @@ function HomeContent() {
               placeholder="콘서트 이름으로 검색"
               value={keyword}
               onChange={handleKeywordChange}
-              className="w-full pl-10 p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full pl-10 p-3 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
           </div>
 
           <select
             value={sort}
             onChange={handleSortChange}
-            className="p-3 border border-gray-200 rounded-lg bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="p-3 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400"
           >
             <option value="closingSoon">마감 임박순</option>
             <option value="latest">최신순</option>
@@ -513,7 +515,7 @@ function HomeContent() {
                 <Link
                   href={`/concerts/${concert.concertId}`}
                   key={concert.concertId}
-                  className="bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-lg hover:-translate-y-1 transition-all duration-200 cursor-pointer flex flex-col"
+                  className="bg-white dark:bg-gray-900 rounded-2xl shadow-sm overflow-hidden hover:shadow-lg hover:-translate-y-1 transition-all duration-200 cursor-pointer flex flex-col"
                 >
                   <div className="aspect-[2/3] md:h-48 bg-gradient-to-br from-blue-200 to-indigo-300 flex items-center justify-center text-white font-bold relative overflow-hidden">
                     {concert.posterUrl ? (
@@ -541,13 +543,13 @@ function HomeContent() {
                     )}
                   </div>
                   <div className="p-4 flex flex-col flex-1">
-                    <h3 className="font-bold text-gray-800 truncate">
+                    <h3 className="font-bold text-gray-800 dark:text-gray-100 truncate">
                       {concert.concertName}
                     </h3>
-                    <p className="text-sm text-gray-500 mt-1 line-clamp-1">
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 line-clamp-1">
                       {concert.venueName}
                     </p>
-                    <p className="text-sm text-gray-400 mt-auto pt-1">
+                    <p className="text-sm text-gray-400 dark:text-gray-500 mt-auto pt-1">
                       {concert.startDate?.slice(0, 10)} ~{" "}
                       {concert.endDate?.slice(0, 10)}
                     </p>

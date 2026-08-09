@@ -70,15 +70,15 @@ export default function UserProfilePage({
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <p className="text-gray-400">불러오는 중...</p>
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center">
+        <p className="text-gray-400 dark:text-gray-500">불러오는 중...</p>
       </div>
     );
   }
 
   if (notFound || !profile) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center">
         <p className="text-red-400">존재하지 않는 사용자입니다.</p>
       </div>
     );
@@ -87,11 +87,11 @@ export default function UserProfilePage({
   const isSelf = me !== null && me.id === profile.userId;
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-10">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 p-4 md:p-10">
       <div className="max-w-md mx-auto">
-        <div className="bg-white rounded-2xl shadow-sm p-8">
+        <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-sm dark:shadow-none p-8">
           <div className="flex flex-col items-center mb-6">
-            <div className="relative w-20 h-20 rounded-full overflow-hidden border-2 border-gray-100 mb-3">
+            <div className="relative w-20 h-20 rounded-full overflow-hidden border-2 border-gray-100 dark:border-gray-800 mb-3">
               <Image
                 src={imgError ? "/default-avatar.svg" : profile.profileImgUrl}
                 alt="프로필 사진"
@@ -101,13 +101,15 @@ export default function UserProfilePage({
                 className="object-cover"
               />
             </div>
-            <h1 className="text-lg font-bold text-gray-800">{profile.name}</h1>
+            <h1 className="text-lg font-bold text-gray-800 dark:text-gray-100">
+              {profile.name}
+            </h1>
           </div>
 
           {isSelf ? (
             <Link
               href="/mypage"
-              className="block text-center px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-semibold rounded-lg transition"
+              className="block text-center px-4 py-2.5 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 text-sm font-semibold rounded-lg transition"
             >
               마이페이지로 이동
             </Link>
@@ -117,7 +119,7 @@ export default function UserProfilePage({
               disabled={followPending}
               className={`w-full px-4 py-2.5 text-sm font-semibold rounded-lg transition disabled:opacity-50 ${
                 profile.isFollowing
-                  ? "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  ? "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
                   : "bg-blue-600 text-white hover:bg-blue-700"
               }`}
             >
@@ -129,7 +131,7 @@ export default function UserProfilePage({
             </button>
           ) : (
             <div className="text-center">
-              <p className="text-sm text-gray-400 mb-3">
+              <p className="text-sm text-gray-400 dark:text-gray-500 mb-3">
                 팔로우하려면 로그인이 필요합니다.
               </p>
               <button

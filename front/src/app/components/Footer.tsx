@@ -9,7 +9,7 @@ export default function Footer() {
   if (pathname === "/login" || pathname === "/signup") return null;
 
   return (
-    <footer className="print:hidden bg-white border-t border-gray-100 mt-auto">
+    <footer className="print:hidden bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800 mt-auto">
       <div className="max-w-5xl mx-auto px-6 py-10">
         <div className="flex flex-col md:flex-row justify-between gap-8">
           {/* 로고 + 소개 */}
@@ -22,7 +22,7 @@ export default function Footer() {
                 className="h-8 w-auto object-contain block"
               />
             </Link>
-            <p className="text-sm text-gray-400 leading-relaxed">
+            <p className="text-sm text-gray-400 dark:text-gray-500 leading-relaxed">
               콘서트부터 페스티벌까지,
               <br />
               원하는 공연을 가장 빠르게 예매하세요.
@@ -32,8 +32,8 @@ export default function Footer() {
           {/* 링크 */}
           <div className="flex gap-16">
             <div>
-              <h3 className="font-bold text-gray-700 mb-3 text-sm">서비스</h3>
-              <ul className="space-y-2 text-sm text-gray-400">
+              <h3 className="font-bold text-gray-700 dark:text-gray-200 mb-3 text-sm">서비스</h3>
+              <ul className="space-y-2 text-sm text-gray-400 dark:text-gray-500">
                 <li>
                   <Link href="/" className="hover:text-blue-600 transition">
                     공연 목록
@@ -67,8 +67,8 @@ export default function Footer() {
             </div>
 
             <div>
-              <h3 className="font-bold text-gray-700 mb-3 text-sm">정보</h3>
-              <ul className="space-y-2 text-sm text-gray-400">
+              <h3 className="font-bold text-gray-700 dark:text-gray-200 mb-3 text-sm">정보</h3>
+              <ul className="space-y-2 text-sm text-gray-400 dark:text-gray-500">
                 <li>
                   <span className="cursor-default">이용약관</span>
                 </li>
@@ -84,7 +84,7 @@ export default function Footer() {
         </div>
 
         {/* 하단 카피라이트 */}
-        <div className="border-t border-gray-100 mt-8 pt-6 text-center text-xs text-gray-300">
+        <div className="border-t border-gray-100 dark:border-gray-800 mt-8 pt-6 text-center text-xs text-gray-300 dark:text-gray-600">
           © 2026 티케팅고. All rights reserved.
         </div>
       </div>

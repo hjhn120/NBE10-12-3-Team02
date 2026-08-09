@@ -173,13 +173,13 @@ export default function ConcertPostSection({
   return (
     <section
       id="posts"
-      className="mt-10 bg-white rounded-2xl shadow-sm overflow-hidden"
+      className="mt-10 bg-white dark:bg-gray-900 rounded-2xl shadow-sm dark:shadow-none overflow-hidden"
     >
       <div className="p-8">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-bold text-gray-800">
+          <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100">
             관람 후기
-            <span className="ml-2 text-base font-normal text-gray-400">
+            <span className="ml-2 text-base font-normal text-gray-400 dark:text-gray-500">
               ({posts.length}개)
             </span>
           </h2>
@@ -201,8 +201,8 @@ export default function ConcertPostSection({
         </div>
 
         {showForm && (
-          <div className="mb-8 p-5 bg-slate-50 rounded-xl border border-slate-200">
-            <h3 className="font-semibold text-gray-700 mb-3">
+          <div className="mb-8 p-5 bg-slate-50 dark:bg-gray-800 rounded-xl border border-slate-200 dark:border-gray-700">
+            <h3 className="font-semibold text-gray-700 dark:text-gray-200 mb-3">
               {editingId !== null ? "게시글 수정" : "게시글 작성"}
             </h3>
             <div className="flex gap-2 mb-4">
@@ -217,7 +217,7 @@ export default function ConcertPostSection({
                   className={`px-3 py-1.5 rounded-lg text-sm font-semibold border transition ${
                     reviewType === type
                       ? "bg-blue-600 text-white border-blue-600"
-                      : "bg-white text-gray-600 border-gray-200 hover:border-blue-400"
+                      : "bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:border-blue-400"
                   }`}
                 >
                   {type === "REVIEW" ? "관람후기" : "기대평"}
@@ -233,7 +233,7 @@ export default function ConcertPostSection({
                 onChange={(e) =>
                   setForm((f) => ({ ...f, title: e.target.value }))
                 }
-                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300"
+                className="w-full border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300"
               />
             </div>
             <div className="mb-3">
@@ -245,12 +245,14 @@ export default function ConcertPostSection({
                 onChange={(e) =>
                   setForm((f) => ({ ...f, content: e.target.value }))
                 }
-                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300 resize-none"
+                className="w-full border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300 resize-none"
               />
             </div>
             {reviewType === "REVIEW" && (
               <div className="mb-3">
-                <label className="block text-xs text-gray-400 mb-1">별점</label>
+                <label className="block text-xs text-gray-400 dark:text-gray-500 mb-1">
+                  별점
+                </label>
                 <div className="flex gap-1">
                   {[1, 2, 3, 4, 5].map((n) => (
                     <button
@@ -290,7 +292,7 @@ export default function ConcertPostSection({
               </button>
               <button
                 onClick={resetForm}
-                className="px-5 py-2 bg-gray-100 text-gray-600 text-sm rounded-lg hover:bg-gray-200 transition"
+                className="px-5 py-2 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 text-sm rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition"
               >
                 취소
               </button>
@@ -299,20 +301,24 @@ export default function ConcertPostSection({
         )}
 
         {loading ? (
-          <p className="text-gray-400 text-sm">불러오는 중...</p>
+          <p className="text-gray-400 dark:text-gray-500 text-sm">
+            불러오는 중...
+          </p>
         ) : posts.length === 0 ? (
-          <p className="text-gray-400 text-sm">아직 작성된 후기가 없습니다.</p>
+          <p className="text-gray-400 dark:text-gray-500 text-sm">
+            아직 작성된 후기가 없습니다.
+          </p>
         ) : (
           <ul className="space-y-5">
             {posts.map((post) => (
               <li
                 key={post.postId}
-                className="border-b border-gray-100 pb-5 last:border-0"
+                className="border-b border-gray-100 dark:border-gray-800 pb-5 last:border-0"
               >
                 <div className="flex items-start justify-between">
                   <div>
                     <div className="flex items-center gap-2">
-                      <p className="font-semibold text-gray-800">
+                      <p className="font-semibold text-gray-800 dark:text-gray-100">
                         {post.title}
                       </p>
                       <span
@@ -322,7 +328,7 @@ export default function ConcertPostSection({
                       </span>
                     </div>
                     <div className="flex items-center gap-2 mt-0.5">
-                      <p className="text-xs text-gray-400">
+                      <p className="text-xs text-gray-400 dark:text-gray-500">
                         {post.isMine ? (
                           post.userName
                         ) : (
@@ -335,7 +341,7 @@ export default function ConcertPostSection({
                         )}{" "}
                         · {post.createdAt?.slice(0, 10)}
                       </p>
-                      <span className="flex items-center gap-0.5 text-xs text-gray-400">
+                      <span className="flex items-center gap-0.5 text-xs text-gray-400 dark:text-gray-500">
                         <Heart
                           size={12}
                           className={
@@ -368,7 +374,7 @@ export default function ConcertPostSection({
                     </div>
                   )}
                 </div>
-                <p className="text-gray-600 text-sm mt-2 leading-relaxed whitespace-pre-wrap">
+                <p className="text-gray-600 dark:text-gray-300 text-sm mt-2 leading-relaxed whitespace-pre-wrap">
                   {post.content}
                 </p>
               </li>

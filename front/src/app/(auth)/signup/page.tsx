@@ -219,10 +219,10 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="min-h-screen overflow-y-auto md:h-screen md:overflow-hidden flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 px-4">
+    <div className="min-h-screen overflow-y-auto md:h-screen md:overflow-hidden flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-indigo-950 px-4">
       <form
         onSubmit={handleSignup}
-        className="w-full max-w-sm md:w-96 p-6 md:p-10 bg-white rounded-2xl shadow-xl"
+        className="w-full max-w-sm md:w-96 p-6 md:p-10 bg-white dark:bg-gray-900 rounded-2xl shadow-xl dark:shadow-none"
       >
         <div className="text-center">
           <Link href="/" className="flex justify-center">
@@ -236,7 +236,9 @@ export default function SignupPage() {
               className="h-24 w-24 object-contain"
             />
           </Link>
-          <p className="my-4 text-2xl font-bold text-gray-800">회원가입</p>
+          <p className="my-4 text-2xl font-bold text-gray-800 dark:text-gray-100">
+            회원가입
+          </p>
         </div>
 
         <input
@@ -244,7 +246,7 @@ export default function SignupPage() {
           placeholder="사용자 이름"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="w-full p-3 mb-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="w-full p-3 mb-3 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400"
         />
 
         {/* 이메일 입력 + 인증번호 발송 버튼 */}
@@ -255,7 +257,7 @@ export default function SignupPage() {
             value={email}
             onChange={(e) => handleEmailChange(e.target.value)}
             disabled={isEmailVerified}
-            className="flex-1 p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 disabled:bg-gray-50 disabled:text-gray-500"
+            className="flex-1 p-3 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400 disabled:bg-gray-50 dark:disabled:bg-gray-800/50 disabled:text-gray-500 dark:disabled:text-gray-500"
           />
           <button
             type="button"
@@ -263,8 +265,8 @@ export default function SignupPage() {
             disabled={isSendingEmail || isEmailVerified}
             className={`px-4 rounded-lg text-sm font-semibold whitespace-nowrap transition ${
               isEmailVerified
-                ? "bg-green-100 text-green-700"
-                : "bg-gray-100 hover:bg-gray-200 text-gray-700"
+                ? "bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-400"
+                : "bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200"
             } disabled:opacity-50`}
           >
             {isSendingEmail
@@ -289,13 +291,13 @@ export default function SignupPage() {
                   value={verificationCode}
                   onChange={(e) => setVerificationCode(e.target.value)}
                   disabled={timeLeft === 0}
-                  className="w-full p-3 pr-16 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 disabled:bg-gray-100 disabled:text-gray-400"
+                  className="w-full p-3 pr-16 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400 disabled:bg-gray-100 dark:disabled:bg-gray-800/50 disabled:text-gray-400 dark:disabled:text-gray-500"
                 />
                 <span
                   className={`absolute right-3 top-1/2 -translate-y-1/2 text-xs font-semibold ${
                     timeLeft <= 60
                       ? "text-red-500 animate-pulse"
-                      : "text-gray-500"
+                      : "text-gray-500 dark:text-gray-400"
                   }`}
                 >
                   {formatTime(timeLeft)}
@@ -324,7 +326,7 @@ export default function SignupPage() {
             placeholder="아이디"
             value={loginId}
             onChange={(e) => handleLoginIdChange(e.target.value)}
-            className="flex-1 p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="flex-1 p-3 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
           <button
             type="button"
@@ -332,8 +334,8 @@ export default function SignupPage() {
             disabled={isChecking}
             className={`px-4 rounded-lg text-sm font-semibold whitespace-nowrap transition ${
               isIdChecked
-                ? "bg-green-100 text-green-700"
-                : "bg-gray-100 hover:bg-gray-200 text-gray-700"
+                ? "bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-400"
+                : "bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200"
             } disabled:opacity-50`}
           >
             {isChecking ? "확인 중..." : isIdChecked ? "확인완료" : "중복확인"}
@@ -346,12 +348,12 @@ export default function SignupPage() {
             placeholder="비밀번호"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full p-3 pr-12 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="w-full p-3 pr-12 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300"
           >
             {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
           </button>
@@ -364,7 +366,7 @@ export default function SignupPage() {
           placeholder="비밀번호 확인"
           value={passwordCheck}
           onChange={(e) => setPasswordCheck(e.target.value)}
-          className="w-full p-3 mb-6 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="w-full p-3 mb-6 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400"
         />
 
         <button
@@ -375,7 +377,7 @@ export default function SignupPage() {
           {isSubmitting ? "가입 중..." : "회원가입 하기"}
         </button>
 
-        <p className="text-center text-sm text-gray-500 mt-6">
+        <p className="text-center text-sm text-gray-500 dark:text-gray-400 mt-6">
           이미 계정이 있으신가요?{" "}
           <Link
             href="/login"

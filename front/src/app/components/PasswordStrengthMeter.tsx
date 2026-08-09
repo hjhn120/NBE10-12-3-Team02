@@ -24,7 +24,7 @@ export default function PasswordStrengthMeter({
         {STRENGTH_LEVELS.map((level, i) => (
           <div
             key={level}
-            className={`flex-1 rounded ${i <= currentIndex ? STRENGTH_BAR_COLOR[strength] : "bg-gray-200"}`}
+            className={`flex-1 rounded ${i <= currentIndex ? STRENGTH_BAR_COLOR[strength] : "bg-gray-200 dark:bg-gray-700"}`}
           />
         ))}
       </div>

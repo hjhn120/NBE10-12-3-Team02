@@ -50,33 +50,43 @@ export default function GroupVerifyPage() {
   }, [groupToken]);
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
-      <div className="bg-white rounded-2xl shadow-sm p-8 max-w-sm w-full text-center">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center p-6">
+      <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-sm dark:shadow-none p-8 max-w-sm w-full text-center">
         {state.status === "loading" && (
-          <p className="text-gray-400 text-sm">검증 중...</p>
+          <p className="text-gray-400 dark:text-gray-500 text-sm">
+            검증 중...
+          </p>
         )}
 
         {state.status === "found" && (
           <>
             <div className="text-5xl mb-4">🎟️</div>
-            <h1 className="text-xl font-bold text-gray-800 mb-1">티켓 정보</h1>
+            <h1 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-1">
+              티켓 정보
+            </h1>
 
-            <div className="space-y-3 text-sm text-left border-t border-gray-100 pt-5 mt-4">
+            <div className="space-y-3 text-sm text-left border-t border-gray-100 dark:border-gray-800 pt-5 mt-4">
               <div className="flex justify-between">
-                <span className="text-gray-400 w-20 shrink-0">콘서트</span>
-                <span className="text-gray-800 font-semibold text-right">
+                <span className="text-gray-400 dark:text-gray-500 w-20 shrink-0">
+                  콘서트
+                </span>
+                <span className="text-gray-800 dark:text-gray-100 font-semibold text-right">
                   {state.data.concertName}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400 w-20 shrink-0">공연장</span>
-                <span className="text-gray-800 font-semibold text-right">
+                <span className="text-gray-400 dark:text-gray-500 w-20 shrink-0">
+                  공연장
+                </span>
+                <span className="text-gray-800 dark:text-gray-100 font-semibold text-right">
                   {state.data.venueName}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400 w-20 shrink-0">일시</span>
-                <span className="text-gray-800 font-semibold text-right">
+                <span className="text-gray-400 dark:text-gray-500 w-20 shrink-0">
+                  일시
+                </span>
+                <span className="text-gray-800 dark:text-gray-100 font-semibold text-right">
                   {new Date(state.data.scheduleDate).toLocaleString("ko-KR", {
                     year: "numeric",
                     month: "long",
@@ -88,8 +98,8 @@ export default function GroupVerifyPage() {
               </div>
             </div>
 
-            <div className="mt-5 border-t border-gray-100 pt-4">
-              <p className="text-xs text-gray-400 mb-3 text-left">
+            <div className="mt-5 border-t border-gray-100 dark:border-gray-800 pt-4">
+              <p className="text-xs text-gray-400 dark:text-gray-500 mb-3 text-left">
                 좌석별 유효 여부
               </p>
               <div className="space-y-2">
@@ -98,8 +108,8 @@ export default function GroupVerifyPage() {
                     key={seat.seatNumber}
                     className={`flex items-center justify-between px-4 py-2.5 rounded-xl text-sm font-semibold ${
                       seat.isValid
-                        ? "bg-green-50 text-green-700"
-                        : "bg-gray-100 text-gray-400"
+                        ? "bg-green-50 dark:bg-green-900/40 text-green-700 dark:text-green-400"
+                        : "bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-500"
                     }`}
                   >
                     <span>{seat.seatNumber}</span>
@@ -114,10 +124,10 @@ export default function GroupVerifyPage() {
         {state.status === "notfound" && (
           <>
             <div className="text-5xl mb-4">❌</div>
-            <h1 className="text-xl font-bold text-gray-800 mb-2">
+            <h1 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-2">
               유효하지 않은 티켓입니다
             </h1>
-            <p className="text-sm text-gray-400">
+            <p className="text-sm text-gray-400 dark:text-gray-500">
               QR 코드를 다시 확인해주세요.
             </p>
           </>
@@ -126,10 +136,12 @@ export default function GroupVerifyPage() {
         {state.status === "error" && (
           <>
             <div className="text-5xl mb-4">⚠️</div>
-            <h1 className="text-xl font-bold text-gray-800 mb-2">
+            <h1 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-2">
               오류가 발생했습니다
             </h1>
-            <p className="text-sm text-gray-400">잠시 후 다시 시도해주세요.</p>
+            <p className="text-sm text-gray-400 dark:text-gray-500">
+              잠시 후 다시 시도해주세요.
+            </p>
           </>
         )}
       </div>

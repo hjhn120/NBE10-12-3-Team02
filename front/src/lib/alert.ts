@@ -11,15 +11,15 @@ const baseOptions = {
   buttonsStyling: false,
   reverseButtons: true,
   customClass: {
-    popup: "rounded-2xl! p-3!",
+    popup: "rounded-2xl! p-3! bg-white! dark:bg-gray-900!",
     icon: "scale-80! mt-2! mb-1!",
-    title: "text-xl! font-bold! text-gray-800! mt-1! mb-0!",
-    htmlContainer: "text-gray-600! text-base! mt-1! mb-5!",
+    title: "text-xl! font-bold! text-gray-800! dark:text-gray-100! mt-1! mb-0!",
+    htmlContainer: "text-gray-600! dark:text-gray-400! text-base! mt-1! mb-5!",
     actions: "gap-3! w-full! px-3! mt-0!",
     confirmButton:
       "flex-1 p-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-bold transition",
     cancelButton:
-      "flex-1 p-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg font-bold transition",
+      "flex-1 p-3 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-lg font-bold transition",
   },
 };
 

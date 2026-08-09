@@ -34,8 +34,8 @@ export default function ShareButton({
       aria-label="링크 복사"
       className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-sm font-medium transition ${
         copied
-          ? "bg-green-50 border-green-200 text-green-600"
-          : "bg-white border-gray-200 text-gray-500 hover:border-blue-300 hover:text-blue-600 hover:bg-blue-50"
+          ? "bg-green-50 dark:bg-green-900/40 border-green-200 dark:border-green-800 text-green-600 dark:text-green-400"
+          : "bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-blue-300 dark:hover:border-blue-700 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950/40"
       } ${className}`}
     >
       {copied ? (

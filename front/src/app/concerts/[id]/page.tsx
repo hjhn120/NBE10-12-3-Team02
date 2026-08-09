@@ -89,15 +89,15 @@ export default function ConcertDetailPage({
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <p className="text-gray-400">불러오는 중...</p>
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center">
+        <p className="text-gray-400 dark:text-gray-500">불러오는 중...</p>
       </div>
     );
   }
 
   if (error || !concert) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center">
         <p className="text-red-400">{error || "콘서트를 찾을 수 없습니다."}</p>
       </div>
     );
@@ -111,9 +111,9 @@ export default function ConcertDetailPage({
   const mapUrl = `https://map.kakao.com/link/search/${mapQuery}`;
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-10">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 p-4 md:p-10">
       <div className="max-w-4xl mx-auto">
-        <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+        <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-sm dark:shadow-none overflow-hidden">
           <div className="flex flex-col md:flex-row">
             <div className="md:w-1/3 flex flex-col">
               <div className="w-full relative aspect-[3/4] bg-gradient-to-br from-blue-200 to-indigo-300 flex items-center justify-center text-white font-bold text-xl overflow-hidden">
@@ -134,26 +134,26 @@ export default function ConcertDetailPage({
                   </div>
                 )}
               </div>
-              <div className="mt-4 mx-4 mb-4 p-4 bg-slate-50 border border-slate-100 rounded-2xl space-y-2.5">
+              <div className="mt-4 mx-4 mb-4 p-4 bg-slate-50 dark:bg-gray-800 border border-slate-100 dark:border-gray-700 rounded-2xl space-y-2.5">
                 <div className="flex items-start gap-2">
                   <span className="text-blue-500 text-sm mt-0.5">⏰</span>
                   <div className="text-left">
-                    <p className="text-xs font-semibold text-slate-700">
+                    <p className="text-xs font-semibold text-slate-700 dark:text-gray-300">
                       예매 가능 시간
                     </p>
-                    <p className="text-[11px] text-slate-500 mt-0.5">
+                    <p className="text-[11px] text-slate-500 dark:text-gray-500 mt-0.5">
                       관람일 전일 17시까지
                     </p>
                   </div>
                 </div>
-                <div className="h-px bg-slate-200/50"></div>
+                <div className="h-px bg-slate-200/50 dark:bg-gray-700/50"></div>
                 <div className="flex items-start gap-2">
                   <span className="text-amber-500 text-sm mt-0.5">🎟️</span>
                   <div className="text-left">
-                    <p className="text-xs font-semibold text-slate-700">
+                    <p className="text-xs font-semibold text-slate-700 dark:text-gray-300">
                       매수 제한
                     </p>
-                    <p className="text-[11px] text-slate-500 mt-0.5">
+                    <p className="text-[11px] text-slate-500 dark:text-gray-500 mt-0.5">
                       회차당 최대 3매까지 예매 가능
                     </p>
                   </div>
@@ -163,14 +163,14 @@ export default function ConcertDetailPage({
 
             <div className="p-8 flex-1">
               <div className="flex items-start justify-between gap-2 mb-4">
-                <h1 className="text-2xl font-bold text-gray-800">
+                <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
                   {concert.concertName}
                 </h1>
                 <ShareButton />
               </div>
 
               <div className="mb-4">
-                <h2 className="font-bold text-gray-700 mb-2">공연 장소</h2>
+                <h2 className="font-bold text-gray-700 dark:text-gray-200 mb-2">공연 장소</h2>
 
                 <a
                   href={mapUrl}
@@ -178,39 +178,39 @@ export default function ConcertDetailPage({
                   rel="noopener noreferrer"
                   className="block group"
                 >
-                  <p className="text-gray-600 text-sm group-hover:text-blue-600 transition">
+                  <p className="text-gray-600 dark:text-gray-300 text-sm group-hover:text-blue-600 dark:group-hover:text-blue-400 transition">
                     📍 {concert.venueName}
                     <span className="ml-1 text-xs text-blue-500 underline">
                       지도 보기
                     </span>
                   </p>
-                  <p className="text-gray-400 text-sm mt-1">
+                  <p className="text-gray-400 dark:text-gray-500 text-sm mt-1">
                     {concert.location}
                   </p>
                 </a>
               </div>
 
               <div className="mb-6">
-                <h2 className="font-bold text-gray-700 mb-2">공연 소개</h2>
-                <p className="text-gray-600 text-sm leading-6">
+                <h2 className="font-bold text-gray-700 dark:text-gray-200 mb-2">공연 소개</h2>
+                <p className="text-gray-600 dark:text-gray-300 text-sm leading-6">
                   {concert.description}
                 </p>
               </div>
 
               {concert.reviewSummary && (
                 <div className="mb-6">
-                  <h2 className="font-bold text-gray-700 mb-2">✨ AI 요약</h2>
-                  <p className="text-xs text-indigo-600 bg-indigo-50 border border-indigo-100 rounded-lg px-3 py-2 leading-relaxed whitespace-pre-line">
+                  <h2 className="font-bold text-gray-700 dark:text-gray-200 mb-2">✨ AI 요약</h2>
+                  <p className="text-xs text-indigo-600 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-100 dark:border-indigo-900 rounded-lg px-3 py-2 leading-relaxed whitespace-pre-line">
                     {concert.reviewSummary}
                   </p>
                 </div>
               )}
 
               <div className="mb-6">
-                <h2 className="font-bold text-gray-700 mb-2">
+                <h2 className="font-bold text-gray-700 dark:text-gray-200 mb-2">
                   좌석 등급별 가격
                 </h2>
-                <div className="space-y-1 text-sm text-gray-600">
+                <div className="space-y-1 text-sm text-gray-600 dark:text-gray-300">
                   {Object.entries(concert.prices)
                     .sort(
                       ([a], [b]) =>
@@ -225,9 +225,11 @@ export default function ConcertDetailPage({
               </div>
 
               <div className="mb-6">
-                <h2 className="font-bold text-gray-700 mb-3">회차 선택</h2>
+                <h2 className="font-bold text-gray-700 dark:text-gray-200 mb-3">
+                  회차 선택
+                </h2>
                 {schedules.length === 0 ? (
-                  <p className="text-sm text-gray-400">
+                  <p className="text-sm text-gray-400 dark:text-gray-500">
                     등록된 회차가 없습니다.
                   </p>
                 ) : (
@@ -239,7 +241,7 @@ export default function ConcertDetailPage({
                         className={`px-4 py-2 rounded-lg text-sm font-semibold border transition ${
                           selectedSchedule === schedule.scheduleId
                             ? "bg-blue-600 text-white border-blue-600"
-                            : "bg-white text-gray-600 border-gray-200 hover:border-blue-400"
+                            : "bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:border-blue-400"
                         }`}
                       >
                         {schedule.round}회차
@@ -254,7 +256,7 @@ export default function ConcertDetailPage({
                           className={`text-xs font-normal ${
                             schedule.remainingSeats === 0
                               ? "text-red-500"
-                              : "text-gray-400"
+                              : "text-gray-400 dark:text-gray-500"
                           }`}
                         >
                           {schedule.remainingSeats === 0
@@ -304,7 +306,7 @@ export default function ConcertDetailPage({
                 return (
                   <button
                     disabled
-                    className="w-full p-3 bg-gray-300 text-gray-500 rounded-lg font-bold cursor-not-allowed"
+                    className="w-full p-3 bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 rounded-lg font-bold cursor-not-allowed"
                   >
                     {message}
                   </button>
@@ -322,7 +324,7 @@ export default function ConcertDetailPage({
               className={`px-4 py-2 rounded-lg text-sm font-semibold border transition ${
                 tab === t
                   ? "bg-blue-600 text-white border-blue-600"
-                  : "bg-white text-gray-600 border-gray-200 hover:border-blue-400"
+                  : "bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:border-blue-400"
               }`}
             >
               {t === "info" ? "공연 상세 정보" : "리뷰"}
@@ -331,9 +333,9 @@ export default function ConcertDetailPage({
         </div>
 
         {tab === "info" && (
-          <section className="mt-4 bg-white rounded-2xl shadow-sm overflow-hidden">
+          <section className="mt-4 bg-white dark:bg-gray-900 rounded-2xl shadow-sm dark:shadow-none overflow-hidden">
             <div className="p-8">
-              <h2 className="text-xl font-bold text-gray-800 mb-6">
+              <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-6">
                 상세 설명
               </h2>
 
@@ -346,12 +348,12 @@ export default function ConcertDetailPage({
                       alt="공연 상세 설명"
                       width={800}
                       height={1200}
-                      className="w-full h-auto rounded-xl border border-gray-200"
+                      className="w-full h-auto rounded-xl border border-gray-200 dark:border-gray-700"
                     />
                   </div>
                 ))
               ) : (
-                <p className="text-sm text-gray-400">
+                <p className="text-sm text-gray-400 dark:text-gray-500">
                   등록된 상세 이미지가 없습니다.
                 </p>
               )}

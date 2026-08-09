@@ -32,7 +32,7 @@ const PAGE_SIZE = 10;
 function FollowUserAvatar({ src, alt }: { src: string; alt: string }) {
   const [error, setError] = useState(false);
   return (
-    <div className="relative w-11 h-11 rounded-full overflow-hidden border border-gray-100 shrink-0">
+    <div className="relative w-11 h-11 rounded-full overflow-hidden border border-gray-100 dark:border-gray-800 shrink-0">
       <Image
         src={error ? "/default-avatar.svg" : src}
         alt={alt}
@@ -107,18 +107,20 @@ export default function MyFollowsPage() {
       : "아직 팔로워가 없습니다.";
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-10">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 p-4 md:p-10">
       <div className="max-w-3xl mx-auto">
         <Link
           href="/mypage"
-          className="text-sm text-gray-400 hover:text-gray-600 mb-4 inline-block"
+          className="text-sm text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 mb-4 inline-block"
         >
           ← 마이페이지로
         </Link>
 
-        <h1 className="text-2xl font-bold text-gray-800 mb-6">팔로우 목록</h1>
+        <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6">
+          팔로우 목록
+        </h1>
 
-        <div className="bg-white rounded-2xl shadow-sm p-8">
+        <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-sm dark:shadow-none p-8">
           <div className="flex items-center justify-between mb-4">
             <div className="flex gap-2">
               {(
@@ -133,22 +135,24 @@ export default function MyFollowsPage() {
                   className={`px-3 py-1.5 rounded-lg text-sm font-semibold border transition ${
                     tab === t.key
                       ? "bg-blue-600 text-white border-blue-600"
-                      : "bg-white text-gray-600 border-gray-200 hover:border-blue-400"
+                      : "bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:border-blue-400"
                   }`}
                 >
                   {t.label}
                 </button>
               ))}
             </div>
-            <span className="text-sm text-gray-400">{totalElements}명</span>
+            <span className="text-sm text-gray-400 dark:text-gray-500">
+              {totalElements}명
+            </span>
           </div>
 
           {loading ? (
-            <p className="text-sm text-gray-400 text-center py-10">
+            <p className="text-sm text-gray-400 dark:text-gray-500 text-center py-10">
               불러오는 중...
             </p>
           ) : users.length === 0 ? (
-            <p className="text-sm text-gray-400 text-center py-10">
+            <p className="text-sm text-gray-400 dark:text-gray-500 text-center py-10">
               {emptyMessage}
             </p>
           ) : (
@@ -157,15 +161,15 @@ export default function MyFollowsPage() {
                 <Link
                   key={u.userId}
                   href={`/users/${u.userId}`}
-                  className="flex items-center gap-3 p-4 border border-gray-100 rounded-xl hover:shadow-md hover:border-blue-200 transition"
+                  className="flex items-center gap-3 p-4 border border-gray-100 dark:border-gray-800 rounded-xl hover:shadow-md hover:border-blue-200 dark:hover:border-blue-800 transition"
                 >
                   <FollowUserAvatar src={u.profileImgUrl} alt={u.name} />
                   <div className="min-w-0">
-                    <p className="font-semibold text-gray-800 truncate">
+                    <p className="font-semibold text-gray-800 dark:text-gray-100 truncate">
                       {u.name}
                     </p>
                     {u.followedAt && (
-                      <p className="text-xs text-gray-400 mt-0.5">
+                      <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">
                         {formatDateTime(u.followedAt)}부터 팔로우
                       </p>
                     )}

@@ -124,9 +124,9 @@ function BoardContent() {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50 py-10">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 py-10">
       <div className="max-w-3xl mx-auto px-4">
-        <h1 className="text-2xl font-bold text-gray-800 mb-6">
+        <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6">
           관람 후기 게시판
         </h1>
 
@@ -138,7 +138,7 @@ function BoardContent() {
               className={`px-3 py-1.5 rounded-lg text-sm font-semibold border transition ${
                 typeFilter === f.key
                   ? "bg-blue-600 text-white border-blue-600"
-                  : "bg-white text-gray-600 border-gray-200 hover:border-blue-400"
+                  : "bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:border-blue-400"
               }`}
             >
               {f.label}
@@ -147,16 +147,16 @@ function BoardContent() {
         </div>
 
         {loading ? (
-          <p className="text-gray-400 text-sm">불러오는 중...</p>
+          <p className="text-gray-400 dark:text-gray-500 text-sm">불러오는 중...</p>
         ) : filteredPosts.length === 0 ? (
-          <p className="text-gray-400 text-sm">아직 작성된 후기가 없습니다.</p>
+          <p className="text-gray-400 dark:text-gray-500 text-sm">아직 작성된 후기가 없습니다.</p>
         ) : (
           <ul className="space-y-4">
             {filteredPosts.map((post) => (
               <li
                 key={post.postId}
                 onClick={() => router.push(`/board/${post.postId}`)}
-                className="bg-white rounded-2xl shadow-sm border border-gray-100 flex gap-4 p-4 cursor-pointer hover:shadow-md transition"
+                className="bg-white dark:bg-gray-900 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 flex gap-4 p-4 cursor-pointer hover:shadow-md transition"
               >
                 <div className="relative shrink-0 w-16 h-20 rounded-lg overflow-hidden bg-gradient-to-br from-blue-100 to-indigo-200 flex items-center justify-center">
                   {post.posterUrl ? (
@@ -191,7 +191,7 @@ function BoardContent() {
                       </span>
                     )}
                   </div>
-                  <p className="font-semibold text-gray-800 truncate">
+                  <p className="font-semibold text-gray-800 dark:text-gray-100 truncate">
                     {post.title}
                   </p>
                   {post.reviewType === "REVIEW" && post.rating !== null && (
@@ -199,11 +199,11 @@ function BoardContent() {
                       <RatingStars rating={post.rating} />
                     </div>
                   )}
-                  <p className="text-sm text-gray-500 mt-1 line-clamp-2 leading-relaxed">
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 line-clamp-2 leading-relaxed">
                     {post.content}
                   </p>
                   <div className="flex items-center gap-2 mt-2">
-                    <p className="text-xs text-gray-400">
+                    <p className="text-xs text-gray-400 dark:text-gray-500">
                       {post.isMine ? (
                         post.userName
                       ) : (
@@ -217,7 +217,7 @@ function BoardContent() {
                       )}{" "}
                       · {formatDateTime(post.createdAt)}
                     </p>
-                    <span className="flex items-center gap-0.5 text-xs text-gray-400">
+                    <span className="flex items-center gap-0.5 text-xs text-gray-400 dark:text-gray-500">
                       <Heart
                         size={12}
                         className={

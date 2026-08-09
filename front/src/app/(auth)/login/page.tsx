@@ -104,10 +104,10 @@ function LoginContent() {
   };
 
   return (
-    <div className="h-screen overflow-hidden flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 px-4">
+    <div className="h-screen overflow-hidden flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-indigo-950 px-4">
       <form
         onSubmit={handleLogin}
-        className="w-full max-w-sm md:w-96 p-6 md:p-10 bg-white rounded-2xl shadow-xl"
+        className="w-full max-w-sm md:w-96 p-6 md:p-10 bg-white dark:bg-gray-900 rounded-2xl shadow-xl dark:shadow-none"
       >
         <Link href="/" className="flex justify-center mb-8">
           <Image
@@ -126,7 +126,7 @@ function LoginContent() {
           placeholder="아이디"
           value={loginId}
           onChange={(e) => setLoginId(e.target.value)}
-          className="w-full p-3 mb-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="w-full p-3 mb-3 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400"
         />
 
         <div className="relative mb-6">
@@ -135,12 +135,12 @@ function LoginContent() {
             placeholder="비밀번호"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full p-3 pr-12 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="w-full p-3 pr-12 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300"
           >
             {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
           </button>
@@ -155,9 +155,11 @@ function LoginContent() {
         </button>
 
         <div className="flex items-center gap-3 my-6">
-          <div className="flex-1 h-px bg-gray-200" />
-          <span className="text-xs text-gray-400">또는</span>
-          <div className="flex-1 h-px bg-gray-200" />
+          <div className="flex-1 h-px bg-gray-200 dark:bg-gray-700" />
+          <span className="text-xs text-gray-400 dark:text-gray-500">
+            또는
+          </span>
+          <div className="flex-1 h-px bg-gray-200 dark:bg-gray-700" />
         </div>
 
         <div className="space-y-2">
@@ -173,7 +175,7 @@ function LoginContent() {
           ))}
         </div>
 
-        <p className="text-center text-sm text-gray-500 mt-6">
+        <p className="text-center text-sm text-gray-500 dark:text-gray-400 mt-6">
           아직 회원이 아니신가요?{" "}
           <Link
             href="/signup"

@@ -24,7 +24,7 @@ export default function Pagination({
         type="button"
         onClick={() => onPageChange(Math.max(firstPage, currentPage - 1))}
         disabled={currentPage === firstPage}
-        className="px-3 py-2 rounded-lg border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-default"
+        className="px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-40 disabled:cursor-default"
       >
         이전
       </button>
@@ -37,7 +37,7 @@ export default function Pagination({
             className={`w-10 h-10 rounded-lg border text-sm font-semibold ${
               currentPage === page
                 ? "bg-blue-600 border-blue-600 text-white"
-                : "bg-white border-gray-200 text-gray-600 hover:bg-gray-50"
+                : "bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
             }`}
           >
             {page - basePage + 1}
@@ -48,7 +48,7 @@ export default function Pagination({
         type="button"
         onClick={() => onPageChange(Math.min(lastPage, currentPage + 1))}
         disabled={currentPage === lastPage}
-        className="px-3 py-2 rounded-lg border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-default"
+        className="px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-40 disabled:cursor-default"
       >
         다음
       </button>
