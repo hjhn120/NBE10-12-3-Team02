@@ -24,12 +24,12 @@ export default function BottomNav() {
   };
 
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-100">
+    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800">
       <div className="grid grid-cols-4">
         <Link
           href="/"
           className={`flex flex-col items-center justify-center gap-0.5 py-2.5 text-xs font-medium transition ${
-            isActive("/") ? "text-blue-600" : "text-gray-400"
+            isActive("/") ? "text-blue-600 dark:text-blue-400" : "text-gray-400 dark:text-gray-500"
           }`}
         >
           <Home size={20} />
@@ -39,7 +39,7 @@ export default function BottomNav() {
         <button
           type="button"
           onClick={handleSearchClick}
-          className="flex flex-col items-center justify-center gap-0.5 py-2.5 text-xs font-medium text-gray-400 transition"
+          className="flex flex-col items-center justify-center gap-0.5 py-2.5 text-xs font-medium text-gray-400 dark:text-gray-500 transition"
         >
           <Search size={20} />
           검색
@@ -48,7 +48,7 @@ export default function BottomNav() {
         <Link
           href="/board"
           className={`flex flex-col items-center justify-center gap-0.5 py-2.5 text-xs font-medium transition ${
-            isActive("/board") ? "text-blue-600" : "text-gray-400"
+            isActive("/board") ? "text-blue-600 dark:text-blue-400" : "text-gray-400 dark:text-gray-500"
           }`}
         >
           <MessageSquare size={20} />
@@ -58,7 +58,7 @@ export default function BottomNav() {
         <Link
           href="/mypage"
           className={`flex flex-col items-center justify-center gap-0.5 py-2.5 text-xs font-medium transition ${
-            isActive("/mypage") ? "text-blue-600" : "text-gray-400"
+            isActive("/mypage") ? "text-blue-600 dark:text-blue-400" : "text-gray-400 dark:text-gray-500"
           }`}
         >
           <User size={20} />
