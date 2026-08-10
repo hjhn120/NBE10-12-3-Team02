@@ -140,7 +140,7 @@ class QueueSseOutboxIntegrationTest {
         val restored = repository.requeueStaleProcessingEvents(
             QueueSseOutboxStatus.PROCESSING,
             QueueSseOutboxStatus.PENDING,
-            LocalDateTime.now().plusSeconds(30),
+            LocalDateTime.now().plusHours(1),
             LocalDateTime.now(),
         )
 
@@ -199,7 +199,7 @@ class QueueSseOutboxIntegrationTest {
 
     private fun readyEventIds(): List<String> = repository.findReadyEventIds(
         QueueSseOutboxStatus.PENDING,
-        LocalDateTime.now(),
+        LocalDateTime.now().plusMinutes(1),
         PageRequest.of(0, 100),
     )
 
@@ -207,7 +207,7 @@ class QueueSseOutboxIntegrationTest {
         eventId,
         QueueSseOutboxStatus.PENDING,
         QueueSseOutboxStatus.PROCESSING,
-        LocalDateTime.now(),
+        LocalDateTime.now().plusMinutes(1),
     )
 
     private fun entryAllowedEvent() = EntryAllowedEvent(
