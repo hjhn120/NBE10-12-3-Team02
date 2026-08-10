@@ -23,7 +23,7 @@ object HangulSearchUtils {
         val lastChar = trimmed.last()
         val prefix = trimmed.substring(0, trimmed.length - 1)
 
-        // Case 1: 독립 초성 자음인 경우 (예: 'ㅊ', 'ㄱ', 'ㄴ') -> '차'~'칗' 범위 생성
+        // Case 1: 독립 초성 자음인 경우 (예: 'ㅊ', 'ㄱ', 'ㄴ') -> '차'~'칳' 범위 생성
         val chosungIndex = CHOSUNG_LIST.indexOf(lastChar)
         if (chosungIndex != -1) {
             val startChar = (0xAC00 + chosungIndex * 588).toChar()

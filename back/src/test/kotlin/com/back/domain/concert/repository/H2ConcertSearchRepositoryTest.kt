@@ -10,10 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.context.annotation.Import
 import org.springframework.test.context.ActiveProfiles
+import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
 
 @ActiveProfiles("test")
 @SpringBootTest
+@Transactional
 @Import(RedisTestConfig::class)
 @DisplayName("H2ConcertSearchRepository (!prod 프로필) LIKE & 한글 미완성 자소 검색 통합 테스트")
 class H2ConcertSearchRepositoryTest {
@@ -100,5 +102,20 @@ class H2ConcertSearchRepositoryTest {
     fun search_returnsEmpty_whenNoMatch() {
         val result = concertSearchRepository.findByKeyword("없는키워드xyz")
         assertThat(result).isEmpty()
+    }
+
+    @Test
+    @DisplayName("특수문자만 입력되면 정제 후 전체 콘서트를 반환한다")
+    fun search_withOnlySpecialChars_returnsAll() {
+        val result = concertSearchRepository.findByKeyword("+++ *** () <>")
+        assertThat(result).hasSize(5)
+    }
+
+    @Test
+    @DisplayName("다중 단어 + 미완성 음절 입력(아이유 서) 시 아이유 서울 콘서트가 정상 검색된다")
+    fun search_multiWordWithIncompleteSyllable_matchesTarget() {
+        val result = concertSearchRepository.findByKeyword("아이유 서")
+        assertThat(result).hasSize(1)
+        assertThat(result.first().concertName).isEqualTo("아이유 서울 콘서트")
     }
 }
