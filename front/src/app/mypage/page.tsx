@@ -133,8 +133,8 @@ function MyPageContent() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <p className="text-gray-400">불러오는 중...</p>
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center">
+        <p className="text-gray-400 dark:text-gray-500">불러오는 중...</p>
       </div>
     );
   }
@@ -142,12 +142,14 @@ function MyPageContent() {
   if (!data) return null;
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-10">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 p-4 md:p-10">
       <div className="max-w-4xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <div>
-            <p className="text-gray-400 text-sm">안녕하세요</p>
-            <h1 className="text-2xl font-bold text-gray-800">
+            <p className="text-gray-400 dark:text-gray-500 text-sm">
+              안녕하세요
+            </p>
+            <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
               {data.name}님 👋
             </h1>
           </div>
@@ -155,7 +157,7 @@ function MyPageContent() {
 
         <div className="flex flex-col md:flex-row md:items-start gap-6">
           <nav className="w-full md:w-48 shrink-0">
-            <div className="bg-white rounded-2xl shadow-sm overflow-hidden flex md:block">
+            <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-sm overflow-hidden flex md:block">
               {(
                 [
                   { key: "info", label: "내 정보" },
@@ -171,8 +173,8 @@ function MyPageContent() {
                   }}
                   className={`flex-1 md:w-full text-center md:text-left px-4 py-3.5 text-sm font-semibold transition border-b-2 md:border-b-0 md:border-l-4 ${
                     activeTab === tab.key
-                      ? "border-blue-600 bg-blue-50 text-blue-700"
-                      : "border-transparent text-gray-600 hover:bg-gray-50"
+                      ? "border-blue-600 bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-400"
+                      : "border-transparent text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800"
                   }`}
                 >
                   {tab.label}

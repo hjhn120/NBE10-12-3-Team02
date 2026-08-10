@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Bell, ChevronDown } from "lucide-react";
+import { Bell, ChevronDown, Moon, Sun } from "lucide-react";
 import { fetchEventSource } from "@microsoft/fetch-event-source";
 import {
   apiFetch,
@@ -15,6 +15,7 @@ import {
   restoreSession,
 } from "@/lib/api";
 import { showConfirm } from "@/lib/alert";
+import { useTheme } from "@/app/hooks/useTheme";
 
 interface NotificationItem {
   notificationId: number;
@@ -64,6 +65,7 @@ export default function Navbar() {
 
   // 유저 드롭다운
   const [isUserOpen, setIsUserOpen] = useState(false);
+  const { theme, toggle: toggleTheme } = useTheme();
 
   const sseAbortRef = useRef<AbortController | null>(null);
   const bellRef = useRef<HTMLDivElement>(null);
@@ -269,25 +271,31 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="print:hidden sticky top-0 z-50 bg-white shadow-sm">
+    <nav className="print:hidden sticky top-0 z-50 bg-white dark:bg-gray-900 dark:border-b dark:border-gray-800 shadow-sm dark:shadow-none">
       <div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
         <Link href="/" onClick={handleLogoClick} className="flex items-center">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/images/logo-horizontal.svg"
             alt="티케팅고"
-            className="h-12 w-auto object-contain block"
+            className="h-12 w-auto object-contain block dark:hidden"
+          />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/images/logo-horizontal-dark.svg"
+            alt="티케팅고"
+            className="hidden h-12 w-auto object-contain dark:block"
           />
         </Link>
 
-        <div className="flex items-center gap-4 text-sm font-semibold text-gray-600">
+        <div className="flex items-center gap-4 text-sm font-semibold text-gray-600 dark:text-gray-300">
           {!authChecked ? (
             <div className="w-24 h-9" />
           ) : userName ? (
             <>
               {/* 프로필 사진 → /mypage */}
               <Link href="/mypage" className="flex-shrink-0">
-                <div className="w-8 h-8 rounded-full overflow-hidden bg-gray-100 ring-2 ring-gray-200 hover:ring-blue-400 transition">
+                <div className="w-8 h-8 rounded-full overflow-hidden bg-gray-100 dark:bg-gray-800 ring-2 ring-gray-200 dark:ring-gray-700 hover:ring-blue-400 transition">
                   <Image
                     unoptimized
                     src={
@@ -308,7 +316,7 @@ export default function Navbar() {
               <div className="relative" ref={userRef}>
                 <button
                   onClick={() => setIsUserOpen((v) => !v)}
-                  className="flex items-center gap-1 text-gray-700 hover:text-blue-600 transition"
+                  className="flex items-center gap-1 text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 transition"
                 >
                   <span className="min-w-0 max-w-[6rem] truncate">
                     {userName}
@@ -316,29 +324,55 @@ export default function Navbar() {
                   <ChevronDown size={14} className="shrink-0" />
                 </button>
                 {isUserOpen && (
-                  <div className="absolute right-0 top-9 w-36 bg-white rounded-xl shadow-lg border border-gray-100 z-50 py-1 overflow-hidden">
+                  <div className="absolute right-0 top-9 w-36 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700 z-50 py-1 overflow-hidden">
                     <button
                       onClick={() => handleUserMenuClick("/mypage?tab=info")}
-                      className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 transition"
+                      className="w-full px-4 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
                     >
                       내 정보
                     </button>
                     <button
                       onClick={() => handleUserMenuClick("/mypage?tab=tickets")}
-                      className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 transition"
+                      className="w-full px-4 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
                     >
                       내 티켓
                     </button>
                     <button
                       onClick={() => handleUserMenuClick("/mypage?tab=posts")}
-                      className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 transition"
+                      className="w-full px-4 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
                     >
                       내 게시글
                     </button>
-                    <div className="border-t border-gray-100 my-1" />
+                    <div className="border-t border-gray-100 dark:border-gray-700 my-1" />
+                    <button
+                      onClick={toggleTheme}
+                      className="w-full px-4 py-2 flex items-center justify-between text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
+                    >
+                      <span className="flex items-center gap-2">
+                        {theme === "dark" ? (
+                          <Moon size={14} />
+                        ) : (
+                          <Sun size={14} />
+                        )}
+                        다크모드
+                      </span>
+                      <span
+                        aria-hidden="true"
+                        className={`relative inline-flex h-5 w-9 shrink-0 items-center rounded-full transition-colors ${
+                          theme === "dark" ? "bg-blue-600" : "bg-gray-200 dark:bg-gray-600"
+                        }`}
+                      >
+                        <span
+                          className={`inline-block h-3.5 w-3.5 transform rounded-full bg-white transition-transform ${
+                            theme === "dark" ? "translate-x-4" : "translate-x-1"
+                          }`}
+                        />
+                      </span>
+                    </button>
+                    <div className="border-t border-gray-100 dark:border-gray-700 my-1" />
                     <button
                       onClick={handleLogout}
-                      className="w-full px-4 py-2 text-left text-sm text-red-500 hover:bg-gray-50 transition"
+                      className="w-full px-4 py-2 text-left text-sm text-red-500 dark:text-red-400 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
                     >
                       로그아웃
                     </button>
@@ -350,7 +384,7 @@ export default function Navbar() {
               <div className="relative" ref={bellRef}>
                 <button
                   onClick={handleBellClick}
-                  className="relative p-1 text-gray-600 hover:text-blue-600 transition"
+                  className="relative p-1 text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition"
                   aria-label="알림"
                 >
                   <Bell size={20} />
@@ -362,9 +396,9 @@ export default function Navbar() {
                 </button>
 
                 {isBellOpen && (
-                  <div className="absolute right-0 top-10 w-80 bg-white rounded-xl shadow-lg border border-gray-100 z-50 overflow-hidden">
-                    <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
-                      <span className="font-bold text-gray-800 text-sm">
+                  <div className="absolute right-0 top-10 w-80 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700 z-50 overflow-hidden">
+                    <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100 dark:border-gray-700">
+                      <span className="font-bold text-gray-800 dark:text-gray-100 text-sm">
                         알림
                       </span>
                       <button
@@ -376,11 +410,11 @@ export default function Navbar() {
                     </div>
                     <div className="max-h-96 overflow-y-auto">
                       {notifLoading ? (
-                        <p className="text-center text-sm text-gray-400 py-8">
+                        <p className="text-center text-sm text-gray-400 dark:text-gray-500 py-8">
                           불러오는 중...
                         </p>
                       ) : notifications.length === 0 ? (
-                        <p className="text-center text-sm text-gray-400 py-8">
+                        <p className="text-center text-sm text-gray-400 dark:text-gray-500 py-8">
                           알림이 없습니다
                         </p>
                       ) : (
@@ -388,11 +422,11 @@ export default function Navbar() {
                           <button
                             key={notif.notificationId}
                             onClick={() => handleNotifClick(notif)}
-                            className={`w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-gray-50 transition ${
-                              !notif.isRead ? "bg-blue-50" : ""
+                            className={`w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-700 transition ${
+                              !notif.isRead ? "bg-blue-50 dark:bg-blue-950/40" : ""
                             }`}
                           >
-                            <div className="flex-shrink-0 w-9 h-9 rounded-full overflow-hidden bg-gray-100">
+                            <div className="flex-shrink-0 w-9 h-9 rounded-full overflow-hidden bg-gray-100 dark:bg-gray-700">
                               <Image
                                 unoptimized
                                 src={
@@ -410,13 +444,13 @@ export default function Navbar() {
                               />
                             </div>
                             <div className="flex-1 min-w-0">
-                              <p className="text-sm text-gray-800 leading-snug">
+                              <p className="text-sm text-gray-800 dark:text-gray-100 leading-snug">
                                 {notif.type === "LIKE"
                                   ? `${notif.actorName}님이 회원님의 게시글을 좋아합니다`
                                   : `${notif.actorName}님이 회원님을 팔로우합니다`}
                               </p>
                               {notif.createdAt && (
-                                <p className="text-xs text-gray-400 mt-0.5">
+                                <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">
                                   {new Date(notif.createdAt).toLocaleString(
                                     "ko-KR",
                                     {

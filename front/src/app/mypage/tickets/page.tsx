@@ -57,8 +57,10 @@ function TicketDetailContent() {
 
   if (!group) {
     return (
-      <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center gap-4">
-        <p className="text-gray-400">티켓 정보를 찾을 수 없습니다.</p>
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex flex-col items-center justify-center gap-4">
+        <p className="text-gray-400 dark:text-gray-500">
+          티켓 정보를 찾을 수 없습니다.
+        </p>
         <Link
           href="/mypage"
           className="text-blue-600 font-semibold hover:underline"
@@ -80,7 +82,7 @@ function TicketDetailContent() {
   const statusLabel = allInvalid ? "취소됨" : "예매완료";
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-10">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 p-4 md:p-10">
       {/* 진짜 영화 티켓처럼: 네 모서리는 둥글게, 위/아래 테두리는 올록볼록한 절취선 홈으로 마스킹한다.
           인쇄할 때는 화면 전용 UI를 숨기고, 뒤집기(3D transform)도 풀어서 앞/뒷면이 순서대로 나오게 한다. */}
       <style>{`
@@ -125,7 +127,7 @@ function TicketDetailContent() {
         <div className="no-print flex items-center justify-between mb-6">
           <button
             onClick={() => router.push("/mypage")}
-            className="flex items-center gap-1 text-gray-500 hover:text-gray-700 text-sm font-semibold"
+            className="flex items-center gap-1 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 text-sm font-semibold"
           >
             <ChevronLeft size={18} />
             마이페이지로
@@ -140,10 +142,10 @@ function TicketDetailContent() {
         </div>
 
         <div className="no-print mb-6">
-          <h1 className="text-xl font-bold text-gray-800">
+          <h1 className="text-xl font-bold text-gray-800 dark:text-gray-100">
             {group.concertName}
           </h1>
-          <p className="text-sm text-gray-400 mt-1">
+          <p className="text-sm text-gray-400 dark:text-gray-500 mt-1">
             {group.startDate} ~ {group.endDate} · {group.tickets.length}매
           </p>
         </div>
@@ -309,7 +311,7 @@ function TicketDetailContent() {
           </button>
         </div>
 
-        <p className="no-print text-xs text-gray-400 text-center mt-6">
+        <p className="no-print text-xs text-gray-400 dark:text-gray-500 text-center mt-6">
           예매 취소는 마이페이지에서만 가능합니다.
         </p>
       </div>
@@ -321,7 +323,9 @@ export default function TicketDetailPage() {
   return (
     <Suspense
       fallback={
-        <p className="text-center text-gray-400 py-20">불러오는 중...</p>
+        <p className="text-center text-gray-400 dark:text-gray-500 py-20">
+          불러오는 중...
+        </p>
       }
     >
       <TicketDetailContent />

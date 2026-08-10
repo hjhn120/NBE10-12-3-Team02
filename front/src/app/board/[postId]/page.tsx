@@ -311,15 +311,15 @@ export default function PostDetailPage({
 
   if (postLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <p className="text-gray-400">불러오는 중...</p>
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center">
+        <p className="text-gray-400 dark:text-gray-500">불러오는 중...</p>
       </div>
     );
   }
 
   if (!post) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center">
         <p className="text-red-400">게시글을 찾을 수 없습니다.</p>
       </div>
     );
@@ -328,13 +328,13 @@ export default function PostDetailPage({
   const posterUrl = getLocalConcertPoster(post.posterUrl);
 
   return (
-    <div className="min-h-screen bg-gray-50 py-10">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 py-10">
       <div className="max-w-2xl mx-auto px-4 space-y-6">
         {/* 게시글 본문 */}
-        <div className="bg-white rounded-2xl shadow-sm p-6">
+        <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-sm dark:shadow-none p-6">
           <button
             onClick={() => router.push("/board")}
-            className="text-sm text-gray-400 hover:text-gray-600 mb-4 inline-block"
+            className="text-sm text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 mb-4 inline-block"
           >
             ← 게시판으로
           </button>
@@ -351,7 +351,9 @@ export default function PostDetailPage({
                   className="object-cover"
                 />
               ) : (
-                <span className="text-xs text-gray-400">포스터</span>
+                <span className="text-xs text-gray-400 dark:text-gray-500">
+                  포스터
+                </span>
               )}
             </div>
             <div>
@@ -365,7 +367,7 @@ export default function PostDetailPage({
                   {REVIEW_TYPE_BADGE[post.reviewType].label}
                 </span>
               </div>
-              <p className="text-xs text-gray-400">
+              <p className="text-xs text-gray-400 dark:text-gray-500">
                 {post.isMine ? (
                   post.userName
                 ) : (
@@ -395,7 +397,7 @@ export default function PostDetailPage({
                 onChange={(e) =>
                   setEditForm((f) => ({ ...f, title: e.target.value }))
                 }
-                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300"
+                className="w-full border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300"
               />
               <textarea
                 maxLength={2000}
@@ -404,11 +406,11 @@ export default function PostDetailPage({
                 onChange={(e) =>
                   setEditForm((f) => ({ ...f, content: e.target.value }))
                 }
-                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300 resize-none"
+                className="w-full border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300 resize-none"
               />
               {editForm.reviewType === "REVIEW" && (
                 <div>
-                  <label className="block text-xs text-gray-400 mb-1">
+                  <label className="block text-xs text-gray-400 dark:text-gray-500 mb-1">
                     별점
                   </label>
                   <div className="flex gap-1">
@@ -449,7 +451,7 @@ export default function PostDetailPage({
                     setEditMode(false);
                     setEditError("");
                   }}
-                  className="px-4 py-2 bg-gray-100 text-gray-600 text-sm rounded-lg hover:bg-gray-200 transition"
+                  className="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 text-sm rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition"
                 >
                   취소
                 </button>
@@ -458,7 +460,7 @@ export default function PostDetailPage({
           ) : (
             <>
               <div className="flex items-start justify-between">
-                <h1 className="text-xl font-bold text-gray-800">
+                <h1 className="text-xl font-bold text-gray-800 dark:text-gray-100">
                   {post.title}
                 </h1>
                 <div className="flex items-center gap-3 ml-4 shrink-0">
@@ -467,7 +469,7 @@ export default function PostDetailPage({
                       onClick={handleLikeToggle}
                       disabled={likePending}
                       aria-label={liked ? "좋아요 취소" : "좋아요"}
-                      className="flex items-center gap-1 text-gray-400 hover:text-red-500 disabled:opacity-50 transition"
+                      className="flex items-center gap-1 text-gray-400 dark:text-gray-500 hover:text-red-500 disabled:opacity-50 transition"
                     >
                       <Heart
                         size={20}
@@ -481,7 +483,7 @@ export default function PostDetailPage({
                       onClick={handleBookmarkToggle}
                       disabled={bookmarkPending}
                       aria-label={bookmarked ? "북마크 취소" : "북마크"}
-                      className="text-gray-400 hover:text-blue-500 disabled:opacity-50 transition"
+                      className="text-gray-400 dark:text-gray-500 hover:text-blue-500 disabled:opacity-50 transition"
                     >
                       <Bookmark
                         size={20}
@@ -517,7 +519,7 @@ export default function PostDetailPage({
                   )}
                 </div>
               </div>
-              <p className="text-gray-600 text-sm mt-4 leading-relaxed whitespace-pre-wrap">
+              <p className="text-gray-600 dark:text-gray-300 text-sm mt-4 leading-relaxed whitespace-pre-wrap">
                 {post.content}
               </p>
             </>
@@ -525,22 +527,24 @@ export default function PostDetailPage({
         </div>
 
         {/* 댓글 섹션 */}
-        <div className="bg-white rounded-2xl shadow-sm p-6">
-          <h2 className="font-bold text-gray-800 mb-4">
+        <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-sm dark:shadow-none p-6">
+          <h2 className="font-bold text-gray-800 dark:text-gray-100 mb-4">
             댓글{" "}
-            <span className="text-sm font-normal text-gray-400">
+            <span className="text-sm font-normal text-gray-400 dark:text-gray-500">
               ({comments.length}개)
             </span>
           </h2>
 
           {comments.length === 0 ? (
-            <p className="text-sm text-gray-400 mb-4">아직 댓글이 없습니다.</p>
+            <p className="text-sm text-gray-400 dark:text-gray-500 mb-4">
+              아직 댓글이 없습니다.
+            </p>
           ) : (
             <ul className="space-y-4 mb-5">
               {comments.map((c) => (
                 <li
                   key={c.commentId}
-                  className="border-b border-gray-100 pb-4 last:border-0"
+                  className="border-b border-gray-100 dark:border-gray-800 pb-4 last:border-0"
                 >
                   {editingCommentId === c.commentId ? (
                     <div className="space-y-2">
@@ -549,7 +553,7 @@ export default function PostDetailPage({
                         maxLength={1000}
                         value={editCommentContent}
                         onChange={(e) => setEditCommentContent(e.target.value)}
-                        className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300 resize-none"
+                        className="w-full border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300 resize-none"
                       />
                       {editCommentError && (
                         <p className="text-red-500 text-sm">
@@ -566,7 +570,7 @@ export default function PostDetailPage({
                         </button>
                         <button
                           onClick={cancelEditComment}
-                          className="text-xs px-3 py-1.5 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition"
+                          className="text-xs px-3 py-1.5 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition"
                         >
                           취소
                         </button>
@@ -588,7 +592,7 @@ export default function PostDetailPage({
                           )}{" "}
                           · {formatDateTime(c.createdAt)}
                         </p>
-                        <p className="text-sm text-gray-700 mt-1">
+                        <p className="text-sm text-gray-700 dark:text-gray-300 mt-1">
                           {c.content}
                         </p>
                       </div>
@@ -622,7 +626,7 @@ export default function PostDetailPage({
                 rows={3}
                 value={commentInput}
                 onChange={(e) => setCommentInput(e.target.value)}
-                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300 resize-none"
+                className="w-full border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300 resize-none"
               />
               {commentError && (
                 <p className="text-red-500 text-sm">{commentError}</p>
@@ -636,7 +640,7 @@ export default function PostDetailPage({
               </button>
             </div>
           ) : (
-            <p className="text-sm text-gray-400">
+            <p className="text-sm text-gray-400 dark:text-gray-500">
               댓글을 작성하려면{" "}
               <button
                 onClick={() => router.push("/login")}

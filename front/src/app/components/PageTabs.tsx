@@ -44,7 +44,7 @@ export default function PageTabs() {
     <>
       <div
         ref={tabRef}
-        className={`fixed top-16 left-0 right-0 z-40 bg-white border-b border-gray-100 transition-transform duration-300 ${
+        className={`hidden md:block fixed top-16 left-0 right-0 z-40 bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 transition-transform duration-300 ${
           visible ? "translate-y-0" : "-translate-y-full"
         }`}
       >
@@ -59,7 +59,7 @@ export default function PageTabs() {
                 className={`px-5 py-3 text-sm font-semibold border-b-2 transition-colors ${
                   isActive
                     ? "border-blue-600 text-blue-600"
-                    : "border-transparent text-gray-500 hover:text-gray-700"
+                    : "border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700"
                 }`}
               >
                 {label}

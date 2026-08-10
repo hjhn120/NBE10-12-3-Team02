@@ -122,10 +122,12 @@ export function TicketsSection({
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm p-8">
+    <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-sm dark:shadow-none p-8">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-bold text-gray-700">내 티켓</h2>
-        <span className="text-sm text-gray-400">
+        <h2 className="text-lg font-bold text-gray-700 dark:text-gray-100">
+          내 티켓
+        </h2>
+        <span className="text-sm text-gray-400 dark:text-gray-500">
           {filteredGroups.reduce((sum, g) => sum + g.tickets.length, 0)}개의
           티켓
         </span>
@@ -145,7 +147,7 @@ export function TicketsSection({
             className={`px-3 py-1.5 rounded-lg text-sm font-semibold border transition ${
               statusFilter === f.key
                 ? "bg-blue-600 text-white border-blue-600"
-                : "bg-white text-gray-600 border-gray-200 hover:border-blue-400"
+                : "bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:border-blue-400"
             }`}
           >
             {f.label}
@@ -154,7 +156,7 @@ export function TicketsSection({
       </div>
 
       {filteredGroups.length === 0 ? (
-        <p className="text-sm text-gray-400 text-center py-10">
+        <p className="text-sm text-gray-400 dark:text-gray-500 text-center py-10">
           해당 조건의 티켓이 없습니다.
         </p>
       ) : (
@@ -163,8 +165,8 @@ export function TicketsSection({
             const allInvalid = group.tickets.every((t) => !isTicketValid(t));
             const statusLabel = allInvalid ? "취소됨" : "예매완료";
             const statusClass = allInvalid
-              ? "bg-gray-100 text-gray-400"
-              : "bg-green-100 text-green-700";
+              ? "bg-gray-100 dark:bg-gray-700 text-gray-400 dark:text-gray-400"
+              : "bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-400";
             return (
               <div
                 key={group.tickets[0].ticketId}
@@ -187,10 +189,10 @@ export function TicketsSection({
                     "포스터"
                   )}
                 </div>
-                <div className="border-t-2 md:border-t-0 md:border-l-2 border-dashed border-gray-200 mx-6 md:mx-0 md:my-4" />
-                <div className="flex-1 min-w-0 bg-white p-4 md:p-6">
+                <div className="border-t-2 md:border-t-0 md:border-l-2 border-dashed border-gray-200 dark:border-gray-700 mx-6 md:mx-0 md:my-4" />
+                <div className="flex-1 min-w-0 bg-white dark:bg-gray-900 p-4 md:p-6">
                   <div className="flex justify-between items-start mb-3">
-                    <h3 className="font-bold text-gray-800 text-lg min-w-0">
+                    <h3 className="font-bold text-gray-800 dark:text-gray-100 text-lg min-w-0">
                       {group.concertName}
                     </h3>
                     <div className="flex items-center gap-2">
@@ -203,7 +205,7 @@ export function TicketsSection({
                           disabled={
                             cancelingKey === group.tickets[0].ticketId
                           }
-                          className="whitespace-nowrap text-xs text-gray-400 hover:text-red-500 border border-gray-200 hover:border-red-300 px-3 py-1 rounded-lg transition disabled:opacity-50"
+                          className="whitespace-nowrap text-xs text-gray-400 dark:text-gray-500 hover:text-red-500 dark:hover:text-red-400 border border-gray-200 dark:border-gray-700 hover:border-red-300 dark:hover:border-red-800 px-3 py-1 rounded-lg transition disabled:opacity-50"
                         >
                           {cancelingKey === group.tickets[0].ticketId
                             ? "취소 중..."
@@ -217,22 +219,22 @@ export function TicketsSection({
                       </span>
                     </div>
                   </div>
-                  <div className="space-y-1 text-sm text-gray-500">
+                  <div className="space-y-1 text-sm text-gray-500 dark:text-gray-400">
                     <p>
-                      <span className="inline-block w-20 text-gray-400">
+                      <span className="inline-block w-20 text-gray-400 dark:text-gray-500">
                         좌석
                       </span>
                       {group.tickets.length}매 (
                       {group.tickets.map((t) => t.seatNumber).join(", ")})
                     </p>
                     <p>
-                      <span className="inline-block w-20 text-gray-400">
+                      <span className="inline-block w-20 text-gray-400 dark:text-gray-500">
                         공연기간
                       </span>
                       {group.startDate} ~ {group.endDate}
                     </p>
                     <p>
-                      <span className="inline-block w-20 text-gray-400">
+                      <span className="inline-block w-20 text-gray-400 dark:text-gray-500">
                         결제금액
                       </span>
                       <span className="text-blue-600 font-bold">
@@ -252,7 +254,7 @@ export function TicketsSection({
           <button
             onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
             disabled={currentPage === 1}
-            className="px-3 py-2 rounded-lg border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-default"
+            className="px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-40 disabled:cursor-default"
           >
             이전
           </button>
@@ -263,7 +265,7 @@ export function TicketsSection({
               className={`w-10 h-10 rounded-lg border text-sm font-semibold ${
                 currentPage === page
                   ? "bg-blue-600 border-blue-600 text-white"
-                  : "bg-white border-gray-200 text-gray-600 hover:bg-gray-50"
+                  : "bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
               }`}
             >
               {page}
@@ -272,7 +274,7 @@ export function TicketsSection({
           <button
             onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
             disabled={currentPage === totalPages}
-            className="px-3 py-2 rounded-lg border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-default"
+            className="px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-40 disabled:cursor-default"
           >
             다음
           </button>

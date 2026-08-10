@@ -1,8 +1,15 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
+}
+
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
 }
 
 @theme inline {
@@ -16,4 +23,18 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* 홈 배너 Swiper의 좌우 peek 여백. swiper/css의 기본 규칙과 로드 순서 충돌을
+   피하려고 !important로 강제 적용한다 (모바일 전용, md 이상에서는 0으로 리셋). */
+.banner-peek-swiper {
+  padding-left: 2.5rem !important;
+  padding-right: 2.5rem !important;
+}
+
+@media (min-width: 768px) {
+  .banner-peek-swiper {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
 }

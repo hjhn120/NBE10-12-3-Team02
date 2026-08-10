@@ -202,7 +202,7 @@ function SeatGrid({
 
   return (
     <>
-      <div className="bg-gray-300 text-gray-600 text-center py-2 rounded-lg mb-6 font-bold tracking-widest text-sm">
+      <div className="bg-gray-300 dark:bg-gray-700 text-gray-600 dark:text-gray-300 text-center py-2 rounded-lg mb-6 font-bold tracking-widest text-sm">
         STAGE
       </div>
 
@@ -218,7 +218,7 @@ function SeatGrid({
               key={row}
               className="flex items-center gap-2 justify-center min-w-max"
             >
-              <span className="w-4 text-right font-bold text-gray-400 text-[10px]">
+              <span className="w-4 text-right font-bold text-gray-400 dark:text-gray-500 text-[10px]">
                 {row}
               </span>
               <div className="flex gap-1">{leftBlock.map(renderSeat)}</div>
@@ -231,7 +231,7 @@ function SeatGrid({
         })}
       </div>
 
-      <div className="flex gap-6 justify-center mt-6 text-xs text-gray-500 flex-wrap">
+      <div className="flex gap-6 justify-center mt-6 text-xs text-gray-500 dark:text-gray-400 flex-wrap">
         <div className="flex items-center gap-2">
           <div className="w-4 h-4 rounded-full bg-purple-500"></div> 선택됨
         </div>
@@ -873,25 +873,27 @@ function SeatSelectContent({ params }: { params: Promise<{ id: string }> }) {
 
   if (!entryToken) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-        <div className="bg-white rounded-2xl shadow-sm p-10 max-w-sm w-full text-center">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center p-4">
+        <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-sm dark:shadow-none p-10 max-w-sm w-full text-center">
           {queueError ? (
             <p className="text-red-400 text-sm">{queueError}</p>
           ) : (
             <>
-              <h2 className="text-xl font-bold text-gray-800 mb-2">
+              <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-2">
                 대기 중입니다
               </h2>
-              <p className="text-gray-400 text-sm mb-6">
+              <p className="text-gray-400 dark:text-gray-500 text-sm mb-6">
                 접속자가 많아 순서대로 입장을 안내하고 있어요. 잠시만
                 기다려주세요.
               </p>
               <div className="text-4xl font-bold text-blue-600 mb-1">
                 {remainingRank}
-                <span className="text-lg text-gray-400 font-normal">번째</span>
+                <span className="text-lg text-gray-400 dark:text-gray-500 font-normal">
+                  번째
+                </span>
               </div>
               {queueTotal !== null && (
-                <p className="text-xs text-gray-400 mb-6">
+                <p className="text-xs text-gray-400 dark:text-gray-500 mb-6">
                   전체 대기 {queueTotal}명
                 </p>
               )}
@@ -900,7 +902,7 @@ function SeatSelectContent({ params }: { params: Promise<{ id: string }> }) {
           <button
             onClick={handleCancelQueue}
             disabled={isCancelingQueue}
-            className="w-full mt-4 p-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg font-bold transition disabled:opacity-50"
+            className="w-full mt-4 p-3 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-lg font-bold transition disabled:opacity-50"
           >
             {queueError
               ? "돌아가기"
@@ -915,27 +917,29 @@ function SeatSelectContent({ params }: { params: Promise<{ id: string }> }) {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <p className="text-gray-400">불러오는 중...</p>
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center">
+        <p className="text-gray-400 dark:text-gray-500">불러오는 중...</p>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center">
         <p className="text-red-400">{error}</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <div className="max-w-[1600px] mx-auto bg-white rounded-2xl shadow-sm p-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 p-6">
+      <div className="max-w-[1600px] mx-auto bg-white dark:bg-gray-900 rounded-2xl shadow-sm dark:shadow-none p-8">
         <div className="mb-6 flex items-center justify-between">
-          <h1 className="text-lg font-bold text-gray-800">좌석 선택</h1>
+          <h1 className="text-lg font-bold text-gray-800 dark:text-gray-100">
+            좌석 선택
+          </h1>
           {userName && (
-            <span className="text-sm text-gray-400">
+            <span className="text-sm text-gray-400 dark:text-gray-500">
               {userName}님, 좌석을 선택해주세요
             </span>
           )}
@@ -959,23 +963,23 @@ function SeatSelectContent({ params }: { params: Promise<{ id: string }> }) {
           {/* 사이드 패널 */}
           <div className="w-full lg:w-96 flex-shrink-0 space-y-6">
             {/* 인원 선택 카드 */}
-            <div className="bg-white rounded-2xl border border-gray-200 p-5 shadow-sm space-y-4">
-              <h3 className="font-bold text-gray-800 text-sm flex items-center gap-1.5">
+            <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-700 p-5 shadow-sm dark:shadow-none space-y-4">
+              <h3 className="font-bold text-gray-800 dark:text-gray-100 text-sm flex items-center gap-1.5">
                 <span className="w-1.5 h-3.5 bg-blue-600 rounded-full"></span>
                 인원 선택
               </h3>
-              <p className="text-gray-400 text-[10px]">
+              <p className="text-gray-400 dark:text-gray-500 text-[10px]">
                 최대 {MAX_HEADCOUNT}명까지 예매할 수 있어요.
               </p>
 
               <div className="space-y-2.5">
                 {/* 성인 */}
-                <div className="flex items-center justify-between p-3 bg-gray-50/50 rounded-xl border border-gray-100/50">
+                <div className="flex items-center justify-between p-3 bg-gray-50/50 dark:bg-gray-800/50 rounded-xl border border-gray-100/50 dark:border-gray-700/50">
                   <div className="flex flex-col">
-                    <span className="font-semibold text-gray-700 text-xs">
+                    <span className="font-semibold text-gray-700 dark:text-gray-200 text-xs">
                       성인
                     </span>
-                    <span className="text-[9px] text-gray-400 font-medium">
+                    <span className="text-[9px] text-gray-400 dark:text-gray-500 font-medium">
                       만 19세 이상
                     </span>
                   </div>
@@ -984,11 +988,11 @@ function SeatSelectContent({ params }: { params: Promise<{ id: string }> }) {
                       type="button"
                       onClick={() => setAdultCount((c) => Math.max(0, c - 1))}
                       disabled={adultCount <= 0 || adultCount + teenCount <= 1}
-                      className="w-7 h-7 flex items-center justify-center rounded-full border border-gray-200 text-gray-600 hover:bg-blue-50 hover:border-blue-200 hover:text-blue-600 transition disabled:opacity-30 disabled:cursor-not-allowed"
+                      className="w-7 h-7 flex items-center justify-center rounded-full border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-blue-950/40 hover:border-blue-200 dark:hover:border-blue-800 hover:text-blue-600 dark:hover:text-blue-400 transition disabled:opacity-30 disabled:cursor-not-allowed"
                     >
                       <Minus size={12} />
                     </button>
-                    <span className="w-4 text-center font-bold text-gray-800 text-xs">
+                    <span className="w-4 text-center font-bold text-gray-800 dark:text-gray-100 text-xs">
                       {adultCount}
                     </span>
                     <button
@@ -997,7 +1001,7 @@ function SeatSelectContent({ params }: { params: Promise<{ id: string }> }) {
                         setAdultCount((c) => Math.min(MAX_HEADCOUNT, c + 1))
                       }
                       disabled={adultCount + teenCount >= MAX_HEADCOUNT}
-                      className="w-7 h-7 flex items-center justify-center rounded-full border border-gray-200 text-gray-600 hover:bg-blue-50 hover:border-blue-200 hover:text-blue-600 transition disabled:opacity-30 disabled:cursor-not-allowed"
+                      className="w-7 h-7 flex items-center justify-center rounded-full border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-blue-950/40 hover:border-blue-200 dark:hover:border-blue-800 hover:text-blue-600 dark:hover:text-blue-400 transition disabled:opacity-30 disabled:cursor-not-allowed"
                     >
                       <Plus size={12} />
                     </button>
@@ -1005,12 +1009,12 @@ function SeatSelectContent({ params }: { params: Promise<{ id: string }> }) {
                 </div>
 
                 {/* 청소년 */}
-                <div className="flex items-center justify-between p-3 bg-gray-50/50 rounded-xl border border-gray-100/50">
+                <div className="flex items-center justify-between p-3 bg-gray-50/50 dark:bg-gray-800/50 rounded-xl border border-gray-100/50 dark:border-gray-700/50">
                   <div className="flex flex-col">
-                    <span className="font-semibold text-gray-700 text-xs">
+                    <span className="font-semibold text-gray-700 dark:text-gray-200 text-xs">
                       청소년
                     </span>
-                    <span className="text-[9px] text-gray-400 font-medium">
+                    <span className="text-[9px] text-gray-400 dark:text-gray-500 font-medium">
                       만 13세 ~ 18세
                     </span>
                   </div>
@@ -1019,11 +1023,11 @@ function SeatSelectContent({ params }: { params: Promise<{ id: string }> }) {
                       type="button"
                       onClick={() => setTeenCount((c) => Math.max(0, c - 1))}
                       disabled={teenCount <= 0 || adultCount + teenCount <= 1}
-                      className="w-7 h-7 flex items-center justify-center rounded-full border border-gray-200 text-gray-600 hover:bg-blue-50 hover:border-blue-200 hover:text-blue-600 transition disabled:opacity-30 disabled:cursor-not-allowed"
+                      className="w-7 h-7 flex items-center justify-center rounded-full border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-blue-950/40 hover:border-blue-200 dark:hover:border-blue-800 hover:text-blue-600 dark:hover:text-blue-400 transition disabled:opacity-30 disabled:cursor-not-allowed"
                     >
                       <Minus size={12} />
                     </button>
-                    <span className="w-4 text-center font-bold text-gray-800 text-xs">
+                    <span className="w-4 text-center font-bold text-gray-800 dark:text-gray-100 text-xs">
                       {teenCount}
                     </span>
                     <button
@@ -1032,7 +1036,7 @@ function SeatSelectContent({ params }: { params: Promise<{ id: string }> }) {
                         setTeenCount((c) => Math.min(MAX_HEADCOUNT, c + 1))
                       }
                       disabled={adultCount + teenCount >= MAX_HEADCOUNT}
-                      className="w-7 h-7 flex items-center justify-center rounded-full border border-gray-200 text-gray-600 hover:bg-blue-50 hover:border-blue-200 hover:text-blue-600 transition disabled:opacity-30 disabled:cursor-not-allowed"
+                      className="w-7 h-7 flex items-center justify-center rounded-full border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-blue-950/40 hover:border-blue-200 dark:hover:border-blue-800 hover:text-blue-600 dark:hover:text-blue-400 transition disabled:opacity-30 disabled:cursor-not-allowed"
                     >
                       <Plus size={12} />
                     </button>
@@ -1043,7 +1047,7 @@ function SeatSelectContent({ params }: { params: Promise<{ id: string }> }) {
 
             <div>
               <div className="flex items-center justify-between mb-3">
-                <h2 className="font-bold text-gray-700">
+                <h2 className="font-bold text-gray-700 dark:text-gray-200">
                   선택 좌석 {selectedSeats.length} / {requiredSeatCount}
                 </h2>
                 <div className="flex items-center gap-3">
@@ -1053,7 +1057,7 @@ function SeatSelectContent({ params }: { params: Promise<{ id: string }> }) {
                         setPairSeats(null);
                         setFreeSeats([]);
                       }}
-                      className="text-xs text-gray-400 hover:text-red-500"
+                      className="text-xs text-gray-400 dark:text-gray-500 hover:text-red-500 dark:hover:text-red-400"
                     >
                       전체삭제
                     </button>
@@ -1062,7 +1066,7 @@ function SeatSelectContent({ params }: { params: Promise<{ id: string }> }) {
               </div>
 
               {selectedSeats.length === 0 ? (
-                <p className="text-gray-400 text-sm">
+                <p className="text-gray-400 dark:text-gray-500 text-sm">
                   좌석을 선택해주세요. (총 {requiredSeatCount}매)
                 </p>
               ) : (
@@ -1073,19 +1077,19 @@ function SeatSelectContent({ params }: { params: Promise<{ id: string }> }) {
                     return (
                       <div
                         key={seatNumber}
-                        className="flex items-center justify-between bg-gray-50 rounded-lg px-4 py-3"
+                        className="flex items-center justify-between bg-gray-50 dark:bg-gray-800 rounded-lg px-4 py-3"
                       >
                         <div>
-                          <p className="font-semibold text-gray-700 text-sm">
+                          <p className="font-semibold text-gray-700 dark:text-gray-200 text-sm">
                             {grade} · {seatNumber}
                           </p>
-                          <p className="text-xs text-gray-400">
+                          <p className="text-xs text-gray-400 dark:text-gray-500">
                             {price.toLocaleString()}원
                           </p>
                         </div>
                         <button
                           onClick={() => handleSeatClick(seatNumber)}
-                          className="text-gray-400 hover:text-red-500 text-lg leading-none"
+                          className="text-gray-400 dark:text-gray-500 hover:text-red-500 dark:hover:text-red-400 text-lg leading-none"
                         >
                           ×
                         </button>
@@ -1096,8 +1100,8 @@ function SeatSelectContent({ params }: { params: Promise<{ id: string }> }) {
               )}
             </div>
 
-            <div className="border border-gray-200 rounded-xl p-4">
-              <h3 className="font-bold text-gray-700 text-sm mb-3">
+            <div className="border border-gray-200 dark:border-gray-700 rounded-xl p-4">
+              <h3 className="font-bold text-gray-700 dark:text-gray-200 text-sm mb-3">
                 등급별 가격
               </h3>
               <div className="space-y-2">
@@ -1106,7 +1110,7 @@ function SeatSelectContent({ params }: { params: Promise<{ id: string }> }) {
                   return (
                     <div
                       key={grade}
-                      className="flex items-center gap-2 text-sm text-gray-600"
+                      className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300"
                     >
                       <div
                         className={`w-3 h-3 rounded-full ${style.dot}`}
@@ -1118,8 +1122,10 @@ function SeatSelectContent({ params }: { params: Promise<{ id: string }> }) {
               </div>
             </div>
 
-            <div className="flex justify-between items-center border-t pt-4">
-              <span className="text-gray-600 text-sm">총 결제 금액</span>
+            <div className="flex justify-between items-center border-t dark:border-gray-700 pt-4">
+              <span className="text-gray-600 dark:text-gray-300 text-sm">
+                총 결제 금액
+              </span>
               <span className="text-xl font-bold text-blue-600">
                 {totalPrice.toLocaleString()}원
               </span>
@@ -1147,7 +1153,9 @@ export default function SeatSelectPage({
   return (
     <Suspense
       fallback={
-        <p className="text-center text-gray-400 py-20">불러오는 중...</p>
+        <p className="text-center text-gray-400 dark:text-gray-500 py-20">
+          불러오는 중...
+        </p>
       }
     >
       <SeatSelectContent params={params} />
