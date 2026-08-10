@@ -2,6 +2,7 @@ package com.back.domain.concert.repository
 
 import com.back.domain.concert.entity.Concert
 import jakarta.persistence.EntityManager
+import jakarta.persistence.Query
 import jakarta.persistence.TypedQuery
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
@@ -10,11 +11,12 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.ArgumentCaptor
 import org.mockito.Mock
-import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.Mockito.any
+import org.mockito.Mockito.anyString
 import org.mockito.Mockito.eq
 import org.mockito.Mockito.verify
 import org.mockito.Mockito.`when`
+import org.mockito.junit.jupiter.MockitoExtension
 
 /**
  * MroongaConcertSearchRepository 단위 테스트.
@@ -28,7 +30,7 @@ class MroongaConcertSearchRepositoryTest {
     private lateinit var entityManager: EntityManager
 
     @Mock
-    private lateinit var nativeQuery: jakarta.persistence.Query
+    private lateinit var nativeQuery: Query
 
     @Mock
     private lateinit var jpqlQuery: TypedQuery<Concert>
@@ -43,7 +45,7 @@ class MroongaConcertSearchRepositoryTest {
     @Test
     @DisplayName("keyword가 null이면 전체 조회 JPQL이 실행된다")
     fun findAll_whenKeywordIsNull() {
-        `when`(entityManager.createQuery(any(String::class.java), eq(Concert::class.java)))
+        `when`(entityManager.createQuery(anyString(), eq(Concert::class.java)))
             .thenReturn(jpqlQuery)
         `when`(jpqlQuery.resultList).thenReturn(emptyList())
 
@@ -55,7 +57,7 @@ class MroongaConcertSearchRepositoryTest {
     @Test
     @DisplayName("keyword가 빈 문자열이면 전체 조회 JPQL이 실행된다")
     fun findAll_whenKeywordIsBlank() {
-        `when`(entityManager.createQuery(any(String::class.java), eq(Concert::class.java)))
+        `when`(entityManager.createQuery(anyString(), eq(Concert::class.java)))
             .thenReturn(jpqlQuery)
         `when`(jpqlQuery.resultList).thenReturn(emptyList())
 
@@ -67,7 +69,7 @@ class MroongaConcertSearchRepositoryTest {
     @Test
     @DisplayName("특수 연산 문자만(+++, ***) 입력되면 정제 후 전체 조회 JPQL이 실행된다")
     fun findAll_whenOnlySpecialCharactersEntered() {
-        `when`(entityManager.createQuery(any(String::class.java), eq(Concert::class.java)))
+        `when`(entityManager.createQuery(anyString(), eq(Concert::class.java)))
             .thenReturn(jpqlQuery)
         `when`(jpqlQuery.resultList).thenReturn(emptyList())
 
@@ -79,9 +81,9 @@ class MroongaConcertSearchRepositoryTest {
     @Test
     @DisplayName("keyword가 있으면 MATCH/AGAINST 네이티브 쿼리가 '+keyword*' Boolean Mode 형식으로 실행된다")
     fun search_withKeyword_usesBooleanModePrefix() {
-        `when`(entityManager.createNativeQuery(any(String::class.java), eq(Concert::class.java)))
+        `when`(entityManager.createNativeQuery(anyString(), eq(Concert::class.java)))
             .thenReturn(nativeQuery)
-        `when`(nativeQuery.setParameter(any(String::class.java), any())).thenReturn(nativeQuery)
+        `when`(nativeQuery.setParameter(eq("keyword"), any())).thenReturn(nativeQuery)
         `when`(nativeQuery.resultList).thenReturn(mutableListOf<Any?>())
 
         repository.findByKeyword("서울")
@@ -94,9 +96,9 @@ class MroongaConcertSearchRepositoryTest {
     @Test
     @DisplayName("특수문자가 포함된 (BTS) 검색어가 안전하게 정제되어 '+BTS*' 로 전달된다")
     fun search_sanitizesSpecialCharactersInKeyword() {
-        `when`(entityManager.createNativeQuery(any(String::class.java), eq(Concert::class.java)))
+        `when`(entityManager.createNativeQuery(anyString(), eq(Concert::class.java)))
             .thenReturn(nativeQuery)
-        `when`(nativeQuery.setParameter(any(String::class.java), any())).thenReturn(nativeQuery)
+        `when`(nativeQuery.setParameter(eq("keyword"), any())).thenReturn(nativeQuery)
         `when`(nativeQuery.resultList).thenReturn(mutableListOf<Any?>())
 
         repository.findByKeyword("(BTS)")
@@ -109,9 +111,9 @@ class MroongaConcertSearchRepositoryTest {
     @Test
     @DisplayName("다중 단어 검색어는 각 단어마다 '+단어*' 로 조합되어 전달된다")
     fun search_multiWordKeyword_combinesEachToken() {
-        `when`(entityManager.createNativeQuery(any(String::class.java), eq(Concert::class.java)))
+        `when`(entityManager.createNativeQuery(anyString(), eq(Concert::class.java)))
             .thenReturn(nativeQuery)
-        `when`(nativeQuery.setParameter(any(String::class.java), any())).thenReturn(nativeQuery)
+        `when`(nativeQuery.setParameter(eq("keyword"), any())).thenReturn(nativeQuery)
         `when`(nativeQuery.resultList).thenReturn(mutableListOf<Any?>())
 
         repository.findByKeyword("아이유  서울")
