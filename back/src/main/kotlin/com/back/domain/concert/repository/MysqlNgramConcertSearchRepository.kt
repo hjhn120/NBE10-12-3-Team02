@@ -26,7 +26,7 @@ class MysqlNgramConcertSearchRepository(
             return findAllConcerts()
         }
 
-        val cleaned = keyword.replace(Regex("[+\\-*~()<>\":@%]"), " ").trim()
+        val cleaned = keyword.replace(SPECIAL_CHAR_REGEX, " ").trim()
         if (cleaned.isBlank()) {
             return findAllConcerts()
         }
@@ -94,8 +94,13 @@ class MysqlNgramConcertSearchRepository(
      * MySQL Boolean Mode 특수문자 정제 및 다중 단어별 '+단어' 파라미터 조합
      */
     private fun sanitizeBooleanKeyword(cleanedKeyword: String): String {
-        val tokens = cleanedKeyword.split(Regex("\\s+")).filter { it.isNotBlank() }
+        val tokens = cleanedKeyword.split(WHITESPACE_REGEX).filter { it.isNotBlank() }
         if (tokens.isEmpty()) return ""
         return tokens.joinToString(" ") { "+$it" }
+    }
+
+    companion object {
+        private val SPECIAL_CHAR_REGEX = Regex("[+\\-*~()<>\":@%]")
+        private val WHITESPACE_REGEX = Regex("\\s+")
     }
 }

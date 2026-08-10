@@ -24,7 +24,7 @@ class H2ConcertSearchRepository(
         }
 
         // MySQL 버전과 동일하게 특수문자 정제 후 검색 처리
-        val cleaned = keyword.replace(Regex("[+\\-*~()<>\":@%]"), " ").trim()
+        val cleaned = keyword.replace(SPECIAL_CHAR_REGEX, " ").trim()
         if (cleaned.isBlank()) {
             return entityManager
                 .createQuery("SELECT c FROM Concert c", Concert::class.java)
@@ -51,5 +51,9 @@ class H2ConcertSearchRepository(
                 .setParameter("keyword", "%$cleaned%")
                 .resultList
         }
+    }
+
+    companion object {
+        private val SPECIAL_CHAR_REGEX = Regex("[+\\-*~()<>\":@%]")
     }
 }
