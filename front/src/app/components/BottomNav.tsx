@@ -3,12 +3,26 @@
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { Home, Search, MessageSquare, User } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export default function BottomNav() {
   const pathname = usePathname();
   const router = useRouter();
+  // md:hidden은 CSS로만 숨겨서 데스크톱에서도 DOM에는 남아있다 보니, 데스크톱 뷰포트로 도는
+  // E2E 테스트의 범용 locator(h1/h2/h3/svg/button 등)가 페이지 콘텐츠보다 이 버튼/아이콘을
+  // 먼저 집어버리는 문제가 있었다. 데스크톱에서는 아예 렌더링하지 않아 DOM에서 제외한다.
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const mql = window.matchMedia("(min-width: 768px)");
+    setIsDesktop(mql.matches);
+    const handleChange = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
+    mql.addEventListener("change", handleChange);
+    return () => mql.removeEventListener("change", handleChange);
+  }, []);
 
   if (pathname === "/login" || pathname === "/signup") return null;
+  if (isDesktop) return null;
 
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
