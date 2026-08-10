@@ -6,12 +6,13 @@ import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Repository
 
 /**
- * MySQL(InnoDB) 환경 전용 FULLTEXT 인덱스(ngram 파서) 검색 구현체.
+ * MySQL(InnoDB) 환경 전용 FULLTEXT 인덱스(ngram 파서) 및 한글 미완성 음절 자소 REGEXP 검색 구현체.
  * concert_name 컬럼에 ngram 파서 기반 FULLTEXT 인덱스가 필요하다:
  *   ALTER TABLE concert ADD FULLTEXT INDEX ft_concert_name (concert_name) WITH PARSER ngram;
  *
- * 1차로 FULLTEXT IN BOOLEAN MODE 초고속 검색을 수행하고,
- * 토큰 미매칭/미완성 입력어(예: "김처") 등으로 결과가 0건일 경우 2차로 LIKE %k% 스마트 구원(Fallback)을 수행한다.
+ * 1. 한글 미완성 받침 입력(예: "김처" -> "김[처-첨]") 시 자소 범위 REGEXP 검색 수행
+ * 2. 1글자 검색어 시 LIKE %k% 폴백
+ * 3. 2글자 이상 완성형은 FULLTEXT IN BOOLEAN MODE 초고속 검색 ➔ 결과 0건 시 LIKE 폴백
  */
 @Repository
 @Profile("prod")
@@ -29,7 +30,13 @@ class MysqlNgramConcertSearchRepository(
             return findAllConcerts()
         }
 
-        // 1글자 검색어는 ngram_token_size=2 파서 특성상 FULLTEXT 인덱스 토큰 미매칭 방지를 위해 바로 LIKE 폴백
+        // 1. 한글 미완성 받침 입력(예: "김처" -> "김[처-첨]") 자소 범위 REGEXP 검색
+        val hangulRegex = HangulSearchUtils.makeHangulIncompleteRegex(cleaned)
+        if (hangulRegex != null) {
+            return findByRegexOrLike(hangulRegex, cleaned)
+        }
+
+        // 2. 1글자 검색어는 ngram_token_size=2 파서 특성상 FULLTEXT 인덱스 토큰 미매칭 방지를 위해 바로 LIKE 폴백
         if (cleaned.length < 2) {
             return findByLikeKeyword(cleaned)
         }
@@ -47,7 +54,7 @@ class MysqlNgramConcertSearchRepository(
             .setParameter("keyword", booleanKeyword)
             .resultList as List<Concert>
 
-        // 1차 FULLTEXT 결과가 존재하면 즉시 반환, 미완성 입력어 등으로 0건이면 2차 LIKE 쿼리로 스마트 구원
+        // 1차 FULLTEXT 결과가 존재하면 즉시 반환, 미완성/변형 입력어로 0건이면 2차 LIKE 쿼리로 스마트 구원
         if (fullTextResults.isNotEmpty()) {
             return fullTextResults
         }
@@ -59,6 +66,17 @@ class MysqlNgramConcertSearchRepository(
         return entityManager
             .createQuery("SELECT c FROM Concert c", Concert::class.java)
             .resultList
+    }
+
+    private fun findByRegexOrLike(regex: String, rawKeyword: String): List<Concert> {
+        @Suppress("UNCHECKED_CAST")
+        return entityManager.createNativeQuery(
+            "SELECT * FROM concert WHERE concert_name REGEXP :regex OR concert_name LIKE :likeKeyword",
+            Concert::class.java
+        )
+            .setParameter("regex", regex)
+            .setParameter("likeKeyword", "%$rawKeyword%")
+            .resultList as List<Concert>
     }
 
     private fun findByLikeKeyword(rawKeyword: String): List<Concert> {

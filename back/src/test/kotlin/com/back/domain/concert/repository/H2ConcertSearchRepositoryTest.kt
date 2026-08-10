@@ -15,7 +15,7 @@ import java.time.LocalDateTime
 @ActiveProfiles("test")
 @SpringBootTest
 @Import(RedisTestConfig::class)
-@DisplayName("H2ConcertSearchRepository (test 프로필) LIKE 검색 통합 테스트")
+@DisplayName("H2ConcertSearchRepository (!prod 프로필) LIKE & 한글 미완성 자소 검색 통합 테스트")
 class H2ConcertSearchRepositoryTest {
 
     @Autowired
@@ -33,6 +33,7 @@ class H2ConcertSearchRepositoryTest {
                 Concert.create("BTS World Tour 서울", null, LocalDateTime.now(), LocalDateTime.now().plusDays(20), null),
                 Concert.create("Coldplay Music of the Spheres", null, LocalDateTime.now(), LocalDateTime.now().plusDays(30), null),
                 Concert.create("NewJeans 팝업 콘서트", null, LocalDateTime.now(), LocalDateTime.now().plusDays(5), null),
+                Concert.create("김천 시립 예술단 콘서트", null, LocalDateTime.now(), LocalDateTime.now().plusDays(15), null),
             )
         )
     }
@@ -41,14 +42,14 @@ class H2ConcertSearchRepositoryTest {
     @DisplayName("keyword가 null이면 전체 콘서트를 반환한다")
     fun findAll_whenKeywordIsNull() {
         val result = concertSearchRepository.findByKeyword(null)
-        assertThat(result).hasSize(4)
+        assertThat(result).hasSize(5)
     }
 
     @Test
     @DisplayName("keyword가 빈 문자열이면 전체 콘서트를 반환한다")
     fun findAll_whenKeywordIsBlank() {
         val result = concertSearchRepository.findByKeyword("  ")
-        assertThat(result).hasSize(4)
+        assertThat(result).hasSize(5)
     }
 
     @Test
@@ -60,6 +61,14 @@ class H2ConcertSearchRepositoryTest {
             "아이유 서울 콘서트",
             "BTS World Tour 서울"
         )
+    }
+
+    @Test
+    @DisplayName("한글 미완성 받침 입력(김처) 시 김천 콘서트가 정상 검색된다")
+    fun search_hangulIncompleteSyllable_matchesTargetWord() {
+        val result = concertSearchRepository.findByKeyword("김처")
+        assertThat(result).hasSize(1)
+        assertThat(result.first().concertName).isEqualTo("김천 시립 예술단 콘서트")
     }
 
     @Test
