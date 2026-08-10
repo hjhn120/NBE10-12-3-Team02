@@ -6,16 +6,16 @@ import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Repository
 
 /**
- * MySQL(Mroonga) 환경 전용 Full-Text Search 구현체.
- * concert_name 컬럼에 TokenBigram 파서 기반 FULLTEXT 인덱스가 필요하다:
- *   ALTER TABLE concert ADD FULLTEXT INDEX ft_concert_name (concert_name) COMMENT 'parser "TokenBigram"';
+ * MySQL(InnoDB) 환경 전용 FULLTEXT 인덱스(ngram 파서) 검색 구현체.
+ * concert_name 컬럼에 ngram 파서 기반 FULLTEXT 인덱스가 필요하다:
+ *   ALTER TABLE concert ADD FULLTEXT INDEX ft_concert_name (concert_name) WITH PARSER ngram;
  *
- * BOOLEAN MODE를 사용하며 특수문자 이스케이프 및 다중 단어별 '+단어*' 전방 일치(prefix) 조합을 수행한다.
+ * BOOLEAN MODE를 사용하며 특수문자 이스케이프 및 다중 단어별 '+단어' 조합을 수행한다.
  * keyword가 null이거나 blank, 또는 정제 후 빈 값이면 전체 목록을 반환한다.
  */
 @Repository
 @Profile("prod")
-class MroongaConcertSearchRepository(
+class MysqlNgramConcertSearchRepository(
     private val entityManager: EntityManager
 ) : ConcertSearchRepository {
 
@@ -48,12 +48,12 @@ class MroongaConcertSearchRepository(
     }
 
     /**
-     * Mroonga Boolean Mode 특수문자 정제 및 다중 단어별 '+단어*' 전방 일치 파라미터 조합
+     * MySQL Boolean Mode 특수문자 정제 및 다중 단어별 '+단어' 파라미터 조합
      */
     private fun sanitizeBooleanKeyword(keyword: String): String {
         val cleaned = keyword.replace(Regex("[+\\-*~()<>\":@%]"), " ")
         val tokens = cleaned.split(Regex("\\s+")).filter { it.isNotBlank() }
         if (tokens.isEmpty()) return ""
-        return tokens.joinToString(" ") { "+$it*" }
+        return tokens.joinToString(" ") { "+$it" }
     }
 }
