@@ -1,6 +1,6 @@
 services:
   mysql:
-    image: mysql:8.0
+    image: groonga/mroonga:mysql-8.0-latest
     container_name: mysql
     restart: unless-stopped
     environment:

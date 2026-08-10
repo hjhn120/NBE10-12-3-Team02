@@ -6,6 +6,7 @@ import com.back.domain.concert.entity.Concert
 import com.back.domain.concert.constant.ConcertSortType
 import com.back.domain.concert.repository.ConcertDeatilRepository
 import com.back.domain.concert.repository.ConcertRepository
+import com.back.domain.concert.repository.ConcertSearchRepository
 import com.back.domain.schedule.entity.ScheduleSeat
 import com.back.domain.schedule.constant.SeatStatus
 import com.back.domain.schedule.repository.ScheduleRepository
@@ -24,11 +25,12 @@ class ConcertService(
     private val scheduleSeatRepository: ScheduleSeatRepository,
     private val scheduleRepository: ScheduleRepository,
     private val concertRepository: ConcertRepository,
-    private val concertDeatilRepository: ConcertDeatilRepository
+    private val concertDeatilRepository: ConcertDeatilRepository,
+    private val concertSearchRepository: ConcertSearchRepository
 ) {
 
     fun getConcerts(keyword: String?, sort: ConcertSortType?, date: LocalDate?): List<ConcertListResponse> {
-        val concerts = concertRepository.findByKeyword(keyword)
+        val concerts = concertSearchRepository.findByKeyword(keyword)
         val concertIds = concerts.mapNotNull { it.concertId }
         val schedules = scheduleRepository.findAllWithVenueByConcertIds(concertIds)
 
