@@ -1,6 +1,7 @@
 package com.back.domain.concert.repository
 
 import com.back.domain.concert.entity.Concert
+import com.back.global.util.HangulSearchUtils
 import jakarta.persistence.EntityManager
 import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Repository
@@ -22,8 +23,15 @@ class H2ConcertSearchRepository(
                 .resultList
         }
 
-        val trimmed = keyword.trim()
-        val hangulRegex = HangulSearchUtils.makeHangulIncompleteRegex(trimmed)
+        // MySQL 버전과 동일하게 특수문자 정제 후 검색 처리
+        val cleaned = keyword.replace(Regex("[+\\-*~()<>\":@%]"), " ").trim()
+        if (cleaned.isBlank()) {
+            return entityManager
+                .createQuery("SELECT c FROM Concert c", Concert::class.java)
+                .resultList
+        }
+
+        val hangulRegex = HangulSearchUtils.makeHangulIncompleteRegex(cleaned)
 
         return if (hangulRegex != null) {
             @Suppress("UNCHECKED_CAST")
@@ -32,7 +40,7 @@ class H2ConcertSearchRepository(
                 Concert::class.java
             )
                 .setParameter("regex", hangulRegex)
-                .setParameter("likeKeyword", "%$trimmed%")
+                .setParameter("likeKeyword", "%$cleaned%")
                 .resultList as List<Concert>
         } else {
             entityManager
@@ -40,7 +48,7 @@ class H2ConcertSearchRepository(
                     "SELECT c FROM Concert c WHERE c.concertName LIKE :keyword",
                     Concert::class.java
                 )
-                .setParameter("keyword", "%$trimmed%")
+                .setParameter("keyword", "%$cleaned%")
                 .resultList
         }
     }

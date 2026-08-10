@@ -21,7 +21,7 @@ import java.time.LocalDateTime
 
 /**
  * MysqlNgramConcertSearchRepository 단위 테스트.
- * FULLTEXT, 1글자 폴백, 한글 미완성 음절 REGEXP 검색을 검증한다.
+ * FULLTEXT, 1글자 폴백, 한글 초성/미완성 음절 REGEXP 검색을 검증한다.
  */
 @ExtendWith(MockitoExtension::class)
 @DisplayName("MysqlNgramConcertSearchRepository FULLTEXT + REGEXP + LIKE 단위 테스트")
@@ -77,6 +77,22 @@ class MysqlNgramConcertSearchRepositoryTest {
         repository.findByKeyword("+++ *** () <>")
 
         verify(entityManager).createQuery("SELECT c FROM Concert c", Concert::class.java)
+    }
+
+    @Test
+    @DisplayName("한글 독립 초성 입력(김ㅊ) 시 자소 범위 REGEXP 쿼리(김[차-칳])가 실행된다")
+    fun search_hangulChosung_usesRegexSearch() {
+        `when`(entityManager.createNativeQuery(anyString(), eq(Concert::class.java)))
+            .thenReturn(nativeQuery)
+        `when`(nativeQuery.setParameter(eq("regex"), any())).thenReturn(nativeQuery)
+        `when`(nativeQuery.setParameter(eq("likeKeyword"), any())).thenReturn(nativeQuery)
+        `when`(nativeQuery.resultList).thenReturn(mutableListOf<Any?>())
+
+        repository.findByKeyword("김ㅊ")
+
+        val regexCaptor = ArgumentCaptor.forClass(String::class.java)
+        verify(nativeQuery).setParameter(eq("regex"), regexCaptor.capture() as Any?)
+        assertThat(regexCaptor.value).isEqualTo("김[차-칳]")
     }
 
     @Test
