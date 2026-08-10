@@ -79,7 +79,26 @@ class MysqlNgramConcertSearchRepositoryTest {
     }
 
     @Test
-    @DisplayName("keyword가 있으면 MATCH/AGAINST 네이티브 쿼리가 '+keyword' Boolean Mode 형식으로 실행된다")
+    @DisplayName("1글자 검색어(아)는 ngram_token_size=2 미달로 LIKE %아% 폴백 쿼리가 실행된다")
+    fun search_singleCharacter_usesLikeFallback() {
+        `when`(entityManager.createQuery(anyString(), eq(Concert::class.java)))
+            .thenReturn(jpqlQuery)
+        `when`(jpqlQuery.setParameter(eq("keyword"), any())).thenReturn(jpqlQuery)
+        `when`(jpqlQuery.resultList).thenReturn(emptyList())
+
+        repository.findByKeyword("아")
+
+        verify(entityManager).createQuery(
+            "SELECT c FROM Concert c WHERE c.concertName LIKE :keyword",
+            Concert::class.java
+        )
+        val captor = ArgumentCaptor.forClass(String::class.java)
+        verify(jpqlQuery).setParameter(eq("keyword"), captor.capture() as Any?)
+        assertThat(captor.value).isEqualTo("%아%")
+    }
+
+    @Test
+    @DisplayName("keyword가 2글자 이상이면 MATCH/AGAINST 네이티브 쿼리가 '+keyword' Boolean Mode 형식으로 실행된다")
     fun search_withKeyword_usesBooleanModePrefix() {
         `when`(entityManager.createNativeQuery(anyString(), eq(Concert::class.java)))
             .thenReturn(nativeQuery)
