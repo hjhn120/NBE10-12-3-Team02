@@ -72,6 +72,14 @@ class H2ConcertSearchRepositoryTest {
     }
 
     @Test
+    @DisplayName("한글 독립 초성 입력(김ㅊ) 시 김천 콘서트가 정상 검색된다")
+    fun search_hangulIsolatedChosung_matchesTargetWord() {
+        val result = concertSearchRepository.findByKeyword("김ㅊ")
+        assertThat(result).hasSize(1)
+        assertThat(result.first().concertName).isEqualTo("김천 시립 예술단 콘서트")
+    }
+
+    @Test
     @DisplayName("영어 키워드로 부분 검색이 동작한다")
     fun search_withEnglishKeyword() {
         val result = concertSearchRepository.findByKeyword("BTS")
