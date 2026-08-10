@@ -17,13 +17,14 @@ import org.mockito.Mockito.eq
 import org.mockito.Mockito.verify
 import org.mockito.Mockito.`when`
 import org.mockito.junit.jupiter.MockitoExtension
+import java.time.LocalDateTime
 
 /**
  * MysqlNgramConcertSearchRepository 단위 테스트.
- * MySQL InnoDB ngram FULLTEXT 쿼리가 올바른 정제 파라미터로 실행되는지 검증한다.
+ * MySQL InnoDB ngram FULLTEXT 쿼리 및 2단계 스마트 LIKE 폴백 로직을 검증한다.
  */
 @ExtendWith(MockitoExtension::class)
-@DisplayName("MysqlNgramConcertSearchRepository MATCH/AGAINST 정제 쿼리 단위 테스트")
+@DisplayName("MysqlNgramConcertSearchRepository FULLTEXT + LIKE 스마트 폴백 단위 테스트")
 class MysqlNgramConcertSearchRepositoryTest {
 
     @Mock
@@ -98,27 +99,54 @@ class MysqlNgramConcertSearchRepositoryTest {
     }
 
     @Test
-    @DisplayName("keyword가 2글자 이상이면 MATCH/AGAINST 네이티브 쿼리가 '+keyword' Boolean Mode 형식으로 실행된다")
-    fun search_withKeyword_usesBooleanModePrefix() {
+    @DisplayName("2글자 이상 keyword는 FULLTEXT 쿼리가 1차로 실행되어 결과가 존재하면 반환한다")
+    fun search_withKeyword_usesFullTextMatch() {
+        val dummyConcert = Concert.create("서울 콘서트", null, LocalDateTime.now(), LocalDateTime.now().plusDays(1), null)
+        `when`(entityManager.createNativeQuery(anyString(), eq(Concert::class.java)))
+            .thenReturn(nativeQuery)
+        `when`(nativeQuery.setParameter(eq("keyword"), any())).thenReturn(nativeQuery)
+        `when`(nativeQuery.resultList).thenReturn(mutableListOf<Any?>(dummyConcert))
+
+        val result = repository.findByKeyword("서울")
+
+        val captor = ArgumentCaptor.forClass(String::class.java)
+        verify(nativeQuery).setParameter(eq("keyword"), captor.capture() as Any?)
+        assertThat(captor.value).isEqualTo("+서울")
+        assertThat(result).containsExactly(dummyConcert)
+    }
+
+    @Test
+    @DisplayName("FULLTEXT 1차 결과가 0건이면(미완성 입력어 등) 2차로 LIKE %k% 스마트 구원 쿼리가 실행된다")
+    fun search_whenFullTextReturnsEmpty_fallsBackToLike() {
         `when`(entityManager.createNativeQuery(anyString(), eq(Concert::class.java)))
             .thenReturn(nativeQuery)
         `when`(nativeQuery.setParameter(eq("keyword"), any())).thenReturn(nativeQuery)
         `when`(nativeQuery.resultList).thenReturn(mutableListOf<Any?>())
 
-        repository.findByKeyword("서울")
+        `when`(entityManager.createQuery(anyString(), eq(Concert::class.java)))
+            .thenReturn(jpqlQuery)
+        `when`(jpqlQuery.setParameter(eq("keyword"), any())).thenReturn(jpqlQuery)
+        `when`(jpqlQuery.resultList).thenReturn(emptyList())
 
+        repository.findByKeyword("김처")
+
+        verify(entityManager).createQuery(
+            "SELECT c FROM Concert c WHERE c.concertName LIKE :keyword",
+            Concert::class.java
+        )
         val captor = ArgumentCaptor.forClass(String::class.java)
-        verify(nativeQuery).setParameter(eq("keyword"), captor.capture() as Any?)
-        assertThat(captor.value).isEqualTo("+서울")
+        verify(jpqlQuery).setParameter(eq("keyword"), captor.capture() as Any?)
+        assertThat(captor.value).isEqualTo("%김처%")
     }
 
     @Test
     @DisplayName("특수문자가 포함된 (BTS) 검색어가 안전하게 정제되어 '+BTS' 로 전달된다")
     fun search_sanitizesSpecialCharactersInKeyword() {
+        val dummyConcert = Concert.create("BTS 콘서트", null, LocalDateTime.now(), LocalDateTime.now().plusDays(1), null)
         `when`(entityManager.createNativeQuery(anyString(), eq(Concert::class.java)))
             .thenReturn(nativeQuery)
         `when`(nativeQuery.setParameter(eq("keyword"), any())).thenReturn(nativeQuery)
-        `when`(nativeQuery.resultList).thenReturn(mutableListOf<Any?>())
+        `when`(nativeQuery.resultList).thenReturn(mutableListOf<Any?>(dummyConcert))
 
         repository.findByKeyword("(BTS)")
 
@@ -130,10 +158,11 @@ class MysqlNgramConcertSearchRepositoryTest {
     @Test
     @DisplayName("다중 단어 검색어는 각 단어마다 '+단어' 로 조합되어 전달된다")
     fun search_multiWordKeyword_combinesEachToken() {
+        val dummyConcert = Concert.create("아이유 서울 콘서트", null, LocalDateTime.now(), LocalDateTime.now().plusDays(1), null)
         `when`(entityManager.createNativeQuery(anyString(), eq(Concert::class.java)))
             .thenReturn(nativeQuery)
         `when`(nativeQuery.setParameter(eq("keyword"), any())).thenReturn(nativeQuery)
-        `when`(nativeQuery.resultList).thenReturn(mutableListOf<Any?>())
+        `when`(nativeQuery.resultList).thenReturn(mutableListOf<Any?>(dummyConcert))
 
         repository.findByKeyword("아이유  서울")
 
