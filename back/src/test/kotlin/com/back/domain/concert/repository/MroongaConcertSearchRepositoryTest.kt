@@ -18,11 +18,10 @@ import org.mockito.Mockito.`when`
 
 /**
  * MroongaConcertSearchRepository 단위 테스트.
- * MySQL Mroonga FULLTEXT 쿼리가 올바른 파라미터로 실행되는지 검증한다.
- * (실제 MySQL 연결 없이 EntityManager를 모킹하여 쿼리 파라미터 전달 로직만 검증)
+ * MySQL Mroonga FULLTEXT 쿼리가 올바른 정제 파라미터로 실행되는지 검증한다.
  */
 @ExtendWith(MockitoExtension::class)
-@DisplayName("MroongaConcertSearchRepository MATCH/AGAINST 쿼리 파라미터 단위 테스트")
+@DisplayName("MroongaConcertSearchRepository MATCH/AGAINST 정제 쿼리 단위 테스트")
 class MroongaConcertSearchRepositoryTest {
 
     @Mock
@@ -66,6 +65,18 @@ class MroongaConcertSearchRepositoryTest {
     }
 
     @Test
+    @DisplayName("특수 연산 문자만(+++, ***) 입력되면 정제 후 전체 조회 JPQL이 실행된다")
+    fun findAll_whenOnlySpecialCharactersEntered() {
+        `when`(entityManager.createQuery(any(String::class.java), eq(Concert::class.java)))
+            .thenReturn(jpqlQuery)
+        `when`(jpqlQuery.resultList).thenReturn(emptyList())
+
+        repository.findByKeyword("+++ *** () <>")
+
+        verify(entityManager).createQuery("SELECT c FROM Concert c", Concert::class.java)
+    }
+
+    @Test
     @DisplayName("keyword가 있으면 MATCH/AGAINST 네이티브 쿼리가 '+keyword*' Boolean Mode 형식으로 실행된다")
     fun search_withKeyword_usesBooleanModePrefix() {
         `when`(entityManager.createNativeQuery(any(String::class.java), eq(Concert::class.java)))
@@ -75,21 +86,20 @@ class MroongaConcertSearchRepositoryTest {
 
         repository.findByKeyword("서울")
 
-        // '+서울*' Boolean Mode 전방 일치 파라미터가 전달되는지 검증
         val captor = ArgumentCaptor.forClass(String::class.java)
         verify(nativeQuery).setParameter(eq("keyword"), captor.capture() as Any?)
         assertThat(captor.value).isEqualTo("+서울*")
     }
 
     @Test
-    @DisplayName("영어 키워드도 '+keyword*' Boolean Mode 형식으로 전달된다")
-    fun search_withEnglishKeyword_usesBooleanModePrefix() {
+    @DisplayName("특수문자가 포함된 (BTS) 검색어가 안전하게 정제되어 '+BTS*' 로 전달된다")
+    fun search_sanitizesSpecialCharactersInKeyword() {
         `when`(entityManager.createNativeQuery(any(String::class.java), eq(Concert::class.java)))
             .thenReturn(nativeQuery)
         `when`(nativeQuery.setParameter(any(String::class.java), any())).thenReturn(nativeQuery)
         `when`(nativeQuery.resultList).thenReturn(mutableListOf<Any?>())
 
-        repository.findByKeyword("BTS")
+        repository.findByKeyword("(BTS)")
 
         val captor = ArgumentCaptor.forClass(String::class.java)
         verify(nativeQuery).setParameter(eq("keyword"), captor.capture() as Any?)
@@ -97,17 +107,17 @@ class MroongaConcertSearchRepositoryTest {
     }
 
     @Test
-    @DisplayName("keyword 앞뒤 공백은 trim 처리 후 Boolean Mode 형식으로 전달된다")
-    fun search_trimsKeywordWhitespace() {
+    @DisplayName("다중 단어 검색어는 각 단어마다 '+단어*' 로 조합되어 전달된다")
+    fun search_multiWordKeyword_combinesEachToken() {
         `when`(entityManager.createNativeQuery(any(String::class.java), eq(Concert::class.java)))
             .thenReturn(nativeQuery)
         `when`(nativeQuery.setParameter(any(String::class.java), any())).thenReturn(nativeQuery)
         `when`(nativeQuery.resultList).thenReturn(mutableListOf<Any?>())
 
-        repository.findByKeyword("  Coldplay  ")
+        repository.findByKeyword("아이유  서울")
 
         val captor = ArgumentCaptor.forClass(String::class.java)
         verify(nativeQuery).setParameter(eq("keyword"), captor.capture() as Any?)
-        assertThat(captor.value).isEqualTo("+Coldplay*")
+        assertThat(captor.value).isEqualTo("+아이유* +서울*")
     }
 }
