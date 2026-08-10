@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository
  * H2는 Mroonga/MySQL FULLTEXT 구문을 지원하지 않으므로 기존 JPQL LIKE 쿼리를 유지한다.
  */
 @Repository
-@Profile("test")
+@Profile("!prod")
 class H2ConcertSearchRepository(
     private val entityManager: EntityManager
 ) : ConcertSearchRepository {

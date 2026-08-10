@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository
  * keyword가 null이거나 blank이면 전체 목록을 반환한다.
  */
 @Repository
-@Profile("!test")
+@Profile("prod")
 class MroongaConcertSearchRepository(
     private val entityManager: EntityManager
 ) : ConcertSearchRepository {
